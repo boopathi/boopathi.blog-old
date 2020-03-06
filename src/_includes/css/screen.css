@@ -376,49 +376,59 @@ img.light-mode-img {
 /* ---------------------------------------------------------- */
 
 .post-feed {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .post-card {
   position: relative;
-  flex: 1 1 25%;
-  margin: 2rem;
+  margin: 1rem;
+  padding: 2rem;
   position: relative;
   overflow: hidden;
   counter-increment: posts;
-  background: var(--color-base);
+  border: solid 1px transparent;
+  border-radius: 2rem;
+}
+
+.post-card:hover {
+  border: solid 1px var(--color-border);
+  box-shadow: var(--color-border) 1px 1px 10px;
 }
 
 .post-card-img {
-  height: 25vw;
+  height: 20vw;
   width: 100%;
   object-fit: cover;
 }
 
-.post-card-large {
-  flex: 1 1 50%;
+.post-card-featured {
+  color: red;
 }
 
-@media (max-width: 720px) {
-  .post-card {
-    flex: 1 1 40%;
-    margin: 1em;
+@media (max-width: 960px) {
+  .post-feed {
+    grid-template-columns: 1fr 1fr;
   }
-  .post-card-large {
-    flex: 1 1 100%;
+  .post-card-img {
+    height: 40vw;
+  }
+}
+@media (max-width: 720px) {
+  .post-feed {
+    grid-template-columns: 1fr 1fr;
+  }
+  .post-card {
+    margin: 0.2rem;
+    padding: 1rem;
   }
   .post-card-img {
     height: 40vw;
   }
 }
 @media (max-width: 540px) {
-  .post-card {
-    flex: 1 1 100%;
-    margin: 1em;
-  }
-  .post-card-large {
-    flex: 1 1 100%;
+  .post-feed {
+    grid-template-columns: 1fr;
   }
   .post-card-img {
     height: 70vw;
@@ -428,7 +438,7 @@ img.light-mode-img {
 .post-card-content {
   text-align: center;
   margin: 1rem;
-  color: var(--color-bg-dull);
+  color: var(--color-base);
 }
 
 @media (max-width: 720px) {
@@ -463,25 +473,13 @@ img.light-mode-img {
 .post-card-title {
   margin: 0;
   display: inline-block;
-  font-size: 2.4rem;
-  font-weight: 300;
-}
-
-@media (max-width: 960px) {
-  .post-card-title {
-    font-size: 2rem;
-  }
+  font-size: 2.2rem;
+  font-weight: 200;
 }
 
 @media (max-width: 720px) {
   .post-card-title {
     font-size: 2rem;
-  }
-}
-
-@media (max-width: 540px) {
-  .post-card-title {
-    font-size: 1.6rem;
   }
 }
 
