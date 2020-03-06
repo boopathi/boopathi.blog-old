@@ -36,12 +36,9 @@ module.exports = function(config) {
   // Assist RSS feed template
   config.addPlugin(pluginRSS);
 
+  // featured image in post
   config.addPlugin(lazyImagesPlugin, {
-    imgSelector: ".post-content img"
-  });
-
-  config.addPlugin(lazyImagesPlugin, {
-    imgSelector: ".post-card-img"
+    imgSelector: ".post-content-image img, .post-content img, .post-card-img"
   });
 
   // Inline CSS

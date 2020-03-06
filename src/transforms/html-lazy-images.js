@@ -12,7 +12,6 @@ module.exports = function htmlLazyImages(html) {
 
   $bodyImages.each((i, el) => {
     const $el = $(el);
-    $el.attr("loading", "lazy");
     const src = $el.attr("src");
     const url = new URL(src);
 
@@ -106,17 +105,4 @@ function makeCloudinaryUrl(src, width) {
     /cloudinary\.com\/boopathi\/image\/upload\/.+\/v1\/blog-images/g,
     `cloudinary.com/boopathi/image/upload/q_auto,f_auto,w_${width}/v1/blog-images`
   );
-}
-
-async function getSmallDataUri(src) {
-  const resp = await fetch(src);
-  const contentType = resp.headers.get("content-type");
-  const buffer = await resp.buffer();
-  const du = new Datauri();
-  du.format("." + contentType.split("/")[1], buffer);
-
-  return {
-    src,
-    datauri: du.content
-  };
 }
