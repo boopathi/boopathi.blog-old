@@ -6,6 +6,13 @@ body {
   background: var(--color-bg);
 }
 
+img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
 img.dark-mode-img {
   display: none;
 }
@@ -108,6 +115,7 @@ img.light-mode-img {
   text-align: center;
   color: var(--color-base-dull);
   font-size: 1.4rem;
+  background: var(--color-bg);
 }
 
 .site-foot a {

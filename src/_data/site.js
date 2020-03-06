@@ -21,5 +21,7 @@ module.exports = async function() {
 
   if (process.env.SITE_URL) siteData.url = process.env.SITE_URL;
 
+  siteData.github = "boopathi";
+
   return siteData;
 };

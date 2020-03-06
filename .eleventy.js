@@ -5,7 +5,9 @@ const fs = require("fs");
 const pluginRSS = require("@11ty/eleventy-plugin-rss");
 const ghostContentAPI = require("@tryghost/content-api");
 
-const htmlMinTransform = require("./src/transforms/html-min-transform.js");
+const htmlMinTransform = require("./src/transforms/html-min-transform");
+const htmlLazyImages = require("./src/transforms/html-lazy-images");
+const lazyImagesPlugin = require("./plugins/lazyimages");
 
 // Init Ghost API
 const api = new ghostContentAPI({
@@ -23,8 +25,20 @@ module.exports = function(config) {
   // Minify HTML
   config.addTransform("htmlmin", htmlMinTransform);
 
+  config.addTransform("htmlSrcSet", (value, outputPath) => {
+    if (outputPath.includes(".html")) {
+      const result = htmlLazyImages(value);
+      return result;
+    }
+    return value;
+  });
+
   // Assist RSS feed template
   config.addPlugin(pluginRSS);
+
+  config.addPlugin(lazyImagesPlugin, {
+    imgSelector: ".post-content img"
+  });
 
   // Inline CSS
   config.addFilter("cssmin", code => {

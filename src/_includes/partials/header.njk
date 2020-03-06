@@ -26,14 +26,10 @@
         </a>
       {% endif %}
       {% if site.github %}
-        <a href="https://www.github.com/{{ site.github }}" class="site-nav-item" target="_blank" rel="noopener noreferrer">
-          Facebook
+        <a href="https://github.com/{{ site.github | replace("@", "") }}" class="site-nav-item" target="_blank" rel="noopener noreferrer">
+          GitHub
         </a>
       {% endif %}
-      <a class="site-nav-item" href="https://feedly.com/i/subscription/feed/{{ site.url }}/rss/" target="_blank" rel="noopener noreferrer">
-        RSS
-      </a>
     </div>
   </div>
 </div>
-
