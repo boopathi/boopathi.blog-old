@@ -113,6 +113,9 @@ const processImage = async imgElem => {
   if (imgElem.hasAttribute("srcset")) {
     const srcSet = imgElem.getAttribute("srcset");
     imgElem.setAttribute("data-srcset", srcSet);
+  } else {
+    const src = imgElem.getAttribute("src");
+    imgElem.setAttribute("data-src", src);
   }
 
   try {
@@ -135,7 +138,17 @@ const initLazyImages = function(selector, src) {
 
     if (numImages > 0) {
       for (var i = 0; i < numImages; i++) {
-        images[i].srcset = images[i].dataset.srcset;
+        if (images[i].srcset && images[i].srcset.startsWith("data:")) {
+          images[i].srcset = "";
+        }
+        if (images[i].dataset.src) {
+          images[i].src = images[i].dataset.src;
+        } else if (
+          images[i].dataset.srcset &&
+          !images[i].dataset.srcset.startsWith("data:")
+        ) {
+          images[i].srcset = images[i].dataset.srcset;
+        }
       }
     }
 
