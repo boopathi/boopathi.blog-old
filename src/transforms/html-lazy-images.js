@@ -12,6 +12,7 @@ module.exports = function htmlLazyImages(html) {
 
   $bodyImages.each((i, el) => {
     const $el = $(el);
+    $el.attr("loading", "lazy");
     const src = $el.attr("src");
     const url = new URL(src);
 
