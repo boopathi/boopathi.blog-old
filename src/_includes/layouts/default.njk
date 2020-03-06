@@ -1,79 +1,92 @@
 <!DOCTYPE html>
 <html lang="{{ site.lang }}" class="no-js">
-    <head>
-        <title>
-            {%- if title -%}
-                {{ title }} – {{ site.title }}
-            {%- else -%}
-                {{ site.title }} – {{ site.description }}
-            {%- endif -%}
-        </title>
-        <meta name="description" content="{% block description %}{{ site.description }}{% endblock %}">
-        <meta name="robots" content="index,follow">
-        <meta name="generator" content="Eleventy">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <head>
+    <title>
+      {%- if title -%}
+        {{ title }} – {{ site.title }}
+      {%- else -%}
+        {{ site.title }} – {{ site.description }}
+      {%- endif -%}
+    </title>
+    <meta name="description" content="{% block description %}{{ site.description }}{% endblock %}">
+    <meta name="robots" content="index,follow">
+    <meta name="generator" content="Eleventy">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        {% if site.icon %}
-            <link rel="shortcut icon" type="image/png" href="{{ site.icon }}"/>
-        {% endif %}
+    {% if site.icon %}
+      <link rel="shortcut icon" type="image/png" href="{{ site.icon }}"/>
+    {% endif %}
 
-        {%- block seo -%}
-            <!--Twitter Card-->
-            <meta name="twitter:site" content="{{ site.twitter }}">
-            <meta name="twitter:creator" content="{{ site.twitter }}">
-            <meta name="twitter:card" content="summary_large_image">
-            <meta name="twitter:url" content="{{ site.url + page.url }}">
-            <meta name="twitter:title" content="{{ title + " – " + site.title if title else title }}">
-            <meta name="twitter:description" content="{{ site.description }}">
-            <meta name="twitter:image" content="{{ site.cover_image }}">
+    {%- block seo -%}
+      <!--Twitter Card-->
+      <meta name="twitter:site" content="{{ site.twitter }}">
+      <meta name="twitter:creator" content="{{ site.twitter }}">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:url" content="{{ site.url + page.url }}">
+      <meta name="twitter:title" content="{{ title + " – " + site.title if title else title }}">
+      <meta name="twitter:description" content="{{ site.description }}">
+      <meta name="twitter:image" content="{{ site.cover_image }}">
 
-            <!--Schema-->
-            <link rel="author" href="{{ site.url }}">
-            <link rel="publisher" href="{{ site.url }}">
-            <meta itemprop="name" content="{{ title + " – " + site.title if title else title }}">
-            <meta itemprop="description" content="{{ site.description }}">
-            <meta itemprop="image" content="{{ site.cover_image }}">
+      <!--Schema-->
+      <link rel="author" href="{{ site.url }}">
+      <link rel="publisher" href="{{ site.url }}">
+      <meta itemprop="name" content="{{ title + " – " + site.title if title else title }}">
+      <meta itemprop="description" content="{{ site.description }}">
+      <meta itemprop="image" content="{{ site.cover_image }}">
 
-            <!-- Facebook OpenGraph -->
-            <meta property="og:url" content="{{site.url + page.url}}">
-            <meta property="og:type" content="website">
-            <meta property="og:title" content="{{ title + " – " + site.title if title else title }}">
-            <meta property="og:image" content="{{ site.cover_image }}">
-            <meta property="og:description" content="{{ site.description }}">
-            <meta property="og:site_name" content="{{ site.title }}">
-            <meta property="og:locale" content="{{ site.lang }}">
-            <meta property="article:author" content="{{ site.url }}">
-        {%- endblock -%}
+      <!-- Facebook OpenGraph -->
+      <meta property="og:url" content="{{site.url + page.url}}">
+      <meta property="og:type" content="website">
+      <meta property="og:title" content="{{ title + " – " + site.title if title else title }}">
+      <meta property="og:image" content="{{ site.cover_image }}">
+      <meta property="og:description" content="{{ site.description }}">
+      <meta property="og:site_name" content="{{ site.title }}">
+      <meta property="og:locale" content="{{ site.lang }}">
+      <meta property="article:author" content="{{ site.url }}">
+    {%- endblock -%}
 
-        {% set css %}{% include "css/styles.css" %}{% endset %}
-        <style>{{ css | cssmin | safe }}</style>
+    {% set css %}
+      {%include "css/vars.css" %}
+      {%include "css/components/global.css" %}
+      {%include "css/components/ghost.css" %}
+      {%include "css/components/lists.css" %}
+      {%include "css/components/grid.css" %}
+      {%include "css/components/tables.css" %}
+      {%include "css/components/forms.css" %}
+      {%include "css/components/buttons.css" %}
+      {%include "css/components/actions.css" %}
+      {%include "css/components/hamburger.css" %}
+      {%include "css/screen.css" %}
+    {% endset %}
+    <style>{{ css | cssmin | safe }}</style>
 
-        <script>document.documentElement.classList.remove('no-js');</script>
+    <script>document.documentElement.classList.remove('no-js');</script>
 
-        {{ site.codeinjection_head | safe if site.codeinjection_head }}
-        {{ codeinjection_head | safe if codeinjection_head }}
-    </head>
-    <body>
-        {% include "partials/icons.njk" %}
-        <div class="viewport">
+    {{ site.codeinjection_head | safe if site.codeinjection_head }}
+    {{ codeinjection_head | safe if codeinjection_head }}
+  </head>
+  <body>
+    {% include "partials/icons.njk" %}
+    <div class="site-wrapper">
+      <header class="site-head">
+        {% include "partials/header.njk" %}
+      </header>
 
-            <div class="viewport-top">
-                {% include "partials/header.njk" %}
+      <main id="site-main" class="site-main">
+        {% block content %}
+        {% endblock content %}
+      </main>
 
-                <main class="site-main">
-                    <div class="container">
-                        {% block content %}
-                        {% endblock content %}
-                    </div>
-                </main>
-            </div>
+      <footer class="site-foot">
+        {% include "partials/footer.njk" %}
+      </footer>
 
-            <div class="viewport-bottom">
-                {% include "partials/footer.njk" %}
-            </div>
+      {{ site.codeinjection_foot | safe if site.codeinjection_foot }}
+      {{ codeinjection_foot | safe if codeinjection_foot }}
+    </div>
 
-            {{ site.codeinjection_foot | safe if site.codeinjection_foot }}
-            {{ codeinjection_foot | safe if codeinjection_foot }}
-        </div>
-    </body>
+    <script>
+      {%include "js/nav-burger.js" %}
+    </script>
+  </body>
 </html>

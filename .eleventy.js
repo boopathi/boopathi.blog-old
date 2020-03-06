@@ -3,8 +3,6 @@ require("dotenv").config();
 const cleanCSS = require("clean-css");
 const fs = require("fs");
 const pluginRSS = require("@11ty/eleventy-plugin-rss");
-const localImages = require("eleventy-plugin-local-images");
-const lazyImages = require("eleventy-plugin-lazyimages");
 const ghostContentAPI = require("@tryghost/content-api");
 
 const htmlMinTransform = require("./src/transforms/html-min-transform.js");
@@ -27,20 +25,6 @@ module.exports = function(config) {
 
   // Assist RSS feed template
   config.addPlugin(pluginRSS);
-
-  // Apply performance attributes to images
-  config.addPlugin(lazyImages, {
-    cacheFile: ""
-  });
-
-  // Copy images over from Ghost
-  config.addPlugin(localImages, {
-    distPath: "dist",
-    assetPath: "/assets/images",
-    selector: "img",
-    attribute: "data-src", // Lazy images attribute
-    verbose: false
-  });
 
   // Inline CSS
   config.addFilter("cssmin", code => {
