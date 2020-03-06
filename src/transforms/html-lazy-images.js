@@ -62,6 +62,28 @@ module.exports = function htmlLazyImages(html) {
     $el.attr("srcset", srcSet);
   });
 
+  const $postcardImages = $(".post-card-img");
+  $postcardImages.each((i, el) => {
+    const $el = $(el);
+    $el.attr("loading", "lazy");
+    const postcardImagesizes = [480, 720, 960, 1200];
+
+    const src = $el.attr("src");
+    const srcSet = postcardImagesizes
+      .map(w => makeCloudinaryImage(src, w))
+      .join(", ");
+
+    $el.attr(
+      "src",
+      makeCloudinaryUrl(src, postcardImagesizes[postcardImagesizes.length - 1])
+    );
+    $el.attr(
+      "sizes",
+      `(max-width: 540px) 100vw, (max-width: 960px) 48vw, 30vw`
+    );
+    $el.attr("srcset", srcSet);
+  });
+
   return $.html();
 };
 

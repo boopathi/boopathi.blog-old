@@ -16,6 +16,12 @@
       <div>{{ content | getReadingTime }} mins read</div>
     </div>
 
+    <div class="tags-meta">
+      {% for tag in post.tags %}
+        <a href="/tag/{{ tag.slug }}">{{ tag.name | capitalize }}</a>
+      {% endfor %}
+    </div>
+
     {% if post.feature_image %}
       <div class="post-content-image">
         <figure>

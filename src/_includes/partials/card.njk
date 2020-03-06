@@ -1,6 +1,6 @@
 {% macro card(post) %}
-  <a class="post-card{% if post.featured %}  post-card-featured{% endif %}" href="{{ post.url }}">
-    <article>
+  <article class="post-card{% if post.featured %}  post-card-featured{% endif %}" >
+    <a href="{{ post.url }}">
       {% if post.feature_image %}
         <img class="post-card-img" src="{{ post.feature_image }}" alt="{{ post.title }}">
       {% endif %}
@@ -9,7 +9,23 @@
         <h2 class="post-card-title">
           {{ post.title }}
         </h2>
+
+        <div class="post-card-meta">
+          <time
+            class="post-card-meta"
+            datetime="{{ post.created_at }}"
+            >
+              {{ post.created_at | htmlDateString}}
+          </time>
+          <div>{{ post.html | getReadingTime }} mins read</div>
+        </div>
       </div>
-    </article>
-  </a>
+    </a>
+
+    <div class="post-card-tags">
+      {% for tag in post.tags %}
+        <a href="/tag/{{tag.slug}}">{{tag.name | capitalize}}</a>
+      {% endfor %}
+    </div>
+  </article>
 {% endmacro %}

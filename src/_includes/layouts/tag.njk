@@ -4,8 +4,8 @@
 {% set title = tag.name %}
 
 {% block content %}
-  <header class="tag-header">
-    <h1>{{ tag.name }}</h1>
+  <header class="page-head">
+    <h1 class="page-head-title">#{{ tag.name }}</h1>
     <p>{{ content | safe }}</p>
   </header>
   <section class="post-feed">

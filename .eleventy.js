@@ -40,6 +40,10 @@ module.exports = function(config) {
     imgSelector: ".post-content img"
   });
 
+  config.addPlugin(lazyImagesPlugin, {
+    imgSelector: ".post-card-img"
+  });
+
   // Inline CSS
   config.addFilter("cssmin", code => {
     return new cleanCSS({}).minify(code).styles;
@@ -51,9 +55,20 @@ module.exports = function(config) {
     return Math.ceil(numberOfWords / wordsPerMinute);
   });
 
+  config.addFilter("log", obj => console.log(obj));
+
+  config.addFilter(
+    "capitalize",
+    str => str.charAt(0).toUpperCase() + str.slice(1)
+  );
+
   // Date formatting filter
   config.addFilter("htmlDateString", dateObj => {
-    return new Date(dateObj).toISOString().split("T")[0];
+    const d = new Date(dateObj);
+    const ye = new Intl.DateTimeFormat("en", { year: "numeric" }).format(d);
+    const mo = new Intl.DateTimeFormat("en", { month: "short" }).format(d);
+    const da = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d);
+    return `${mo} ${da}, ${ye}`;
   });
 
   // Don't ignore the same files ignored in the git repo
@@ -165,10 +180,10 @@ module.exports = function(config) {
       });
 
     // Attach posts to their respective tags
-    collection.forEach(async tag => {
+    collection.forEach(tag => {
       const taggedPosts = posts.filter(post => {
         post.url = stripDomain(post.url);
-        return post.primary_tag && post.primary_tag.slug === tag.slug;
+        return post.tags.some(ptag => ptag.slug === tag.slug);
       });
       if (taggedPosts.length) tag.posts = taggedPosts;
 
