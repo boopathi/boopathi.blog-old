@@ -79,7 +79,7 @@ module.exports = function htmlLazyImages(html) {
     );
     $el.attr(
       "sizes",
-      `(max-width: 540px) 100vw, (max-width: 960px) 48vw, 30vw`
+      `(max-width: 540px) 100vw, (max-width: 960px) 48vw, (max-width: 1024px) 30vw, 300px`
     );
     $el.attr("srcset", srcSet);
   });
