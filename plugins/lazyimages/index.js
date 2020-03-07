@@ -167,6 +167,24 @@ const transformMarkup = async (rawContent, outputPath) => {
 
   if (outputPath.endsWith(".html")) {
     const dom = new JSDOM(content);
+
+    const featureImage = dom.window.document.querySelector(
+      ".post-content-image img"
+    );
+    if (featureImage) {
+      dom.window.document.head.insertAdjacentHTML(
+        "beforeend",
+        `
+          <link
+            rel="preload"
+            href="${featureImage.src}"
+            as="image"
+            imagesrcset="${featureImage.srcset}"
+            imagesizes="${featureImage.sizes}" />
+        `
+      );
+    }
+
     const images = [...dom.window.document.querySelectorAll(imgSelector)];
 
     if (images.length > 0) {
@@ -185,9 +203,8 @@ const transformMarkup = async (rawContent, outputPath) => {
           </script>`
         );
       }
-
-      content = dom.serialize();
     }
+    content = dom.serialize();
   }
 
   return content;
