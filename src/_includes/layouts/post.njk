@@ -63,3 +63,9 @@
   <meta property="og:locale" content="{{ site.lang }}">
   <meta property="article:author" content="{{ site.url }}">
 {%- endblock -%}
+
+{%- block speculation -%}
+  <!-- optimizations -->
+  <link rel="prefetch" href="/" as="document" />
+  <link rel="prerender" href="/" as="document" />
+{%- endblock -%}
