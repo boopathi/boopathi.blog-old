@@ -22,7 +22,7 @@ jobs:
         run: |
           yarn
           yarn build
-          yarn
+          yarn deploy
         env:
           GHOST_API_URL: ${{secrets.GHOST_API_URL}}
           GHOST_CONTENT_API_KEY: ${{secrets.GHOST_CONTENT_API_KEY}}
