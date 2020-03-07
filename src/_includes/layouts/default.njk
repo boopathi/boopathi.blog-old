@@ -103,5 +103,13 @@
       gtag('js', new Date());
       gtag('config', 'UA-22586438-7');
     </script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-analytics.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-performance-standalone.js"></script>
+    <script defer>
+      {% include "js/init-firebase.js" %}
+    </script>
   </body>
 </html>
