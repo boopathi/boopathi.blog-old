@@ -4,6 +4,7 @@ const cleanCSS = require("clean-css");
 const fs = require("fs");
 const pluginRSS = require("@11ty/eleventy-plugin-rss");
 const ghostContentAPI = require("@tryghost/content-api");
+const cheerio = require("cheerio");
 
 const htmlMinTransform = require("./src/transforms/html-min-transform");
 const htmlLazyImages = require("./src/transforms/html-lazy-images");
@@ -110,13 +111,14 @@ module.exports = function(config) {
       post.url = stripDomain(post.url);
       post.primary_author.url = stripDomain(post.primary_author.url);
       post.tags.map(tag => (tag.url = stripDomain(tag.url)));
+      post.nextPosts = getNextPosts(post);
 
       // Convert publish date into a Date object
       post.published_at = new Date(post.published_at);
     });
 
     // Bring featured post to the top of the list
-    collection.sort((post, nextPost) => nextPost.featured - post.featured);
+    // collection.sort((post, nextPost) => nextPost.featured - post.featured);
 
     return collection;
   });
@@ -219,3 +221,20 @@ module.exports = function(config) {
     passthroughFileCopy: true
   };
 };
+
+function getNextPosts(post) {
+  const $ = cheerio.load(post.html);
+  const nextPosts = [];
+
+  $("a").each((i, el) => {
+    const href = $(el).attr("href");
+    if (
+      href &&
+      (href.startsWith("https://blog.boopathi.in") || href.startsWith("/"))
+    ) {
+      nextPosts.push(href);
+    }
+  });
+
+  return nextPosts;
+}

@@ -68,4 +68,9 @@
   <!-- optimizations -->
   <link rel="prefetch" href="/" as="document" />
   <link rel="prerender" href="/" as="document" />
+
+  {% for href in post.nextPosts %}
+    <link rel="prefetch" href="{{href}}" as="document" />
+    <link rel="prerender" href="{{href}}" />
+  {% endfor %}
 {%- endblock -%}
