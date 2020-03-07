@@ -14,4 +14,5 @@ const firebaseConfig = {
 function initFirebase() {
   firebase.initializeApp(firebaseConfig);
   window.firebasePerf = firebase.performance();
+  window.firebaseAnalytics = firebase.analytics();
 }
