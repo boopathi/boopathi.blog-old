@@ -1,45 +1,30 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
-# Controls when the action will run. Triggers the workflow on push or pull request 
-# events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Setup Node.js for use with actions
-      uses: actions/setup-node@v1.1.0
-      with:
-        version: 12.16.0
+      - name: Setup Node.js for use with actions
+        uses: actions/setup-node@v1.1.0
+        with:
+          version: 12.16.0
 
-    - name: Build
-      run: |
-        yarn
-        yarn build
-      env:
-        GHOST_API_URL: ${{secrets.GHOST_API_URL}}
-        GHOST_CONTENT_API_KEY: ${{secrets.GHOST_CONTENT_API_KEY}}
-        SITE_URL: ${{secrets.SITE_URL}}
-
-    - name: Deploy to Firebase
-      uses: lowply/deploy-firebase@v0.0.2
-      env:
-        FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}
-        FIREBASE_PROJECT: ${{secrets.FIREBASE_PROJECT}}
-
-      
+      - name: Build
+        run: |
+          yarn
+          yarn build
+          yarn
+        env:
+          GHOST_API_URL: ${{secrets.GHOST_API_URL}}
+          GHOST_CONTENT_API_KEY: ${{secrets.GHOST_CONTENT_API_KEY}}
+          SITE_URL: ${{secrets.SITE_URL}}
+          FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}

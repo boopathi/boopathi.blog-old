@@ -8,7 +8,8 @@
     "dev": "cross-env ELEVENTY_ENV=dev eleventy --serve",
     "build": "cross-env ELEVENTY_ENV=prod eleventy",
     "test": "yarn run build",
-    "lint": "eslint . --ext .js --cache"
+    "lint": "eslint . --ext .js --cache",
+    "deploy": "firebase deploy --token $FIREBASE_TOKEN"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
     "cross-env": "^5.2.0",
     "datauri": "^2.0.0",
     "dotenv": "^8.0.0",
+    "firebase-tools": "^7.14.0",
     "html-minifier": "^4.0.0",
     "jimp": "^0.9.5",
     "jsdom": "^16.2.0",
