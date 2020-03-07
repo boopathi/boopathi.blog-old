@@ -32,9 +32,9 @@ jobs:
         yarn
         yarn build
       env:
-        GHOST_API_URL = ${{secrets.GHOST_API_URL}}
-        GHOST_CONTENT_API_KEY = ${{secrets.GHOST_CONTENT_API_KEY}}
-        SITE_URL = ${{secrets.SITE_URL}}
+        GHOST_API_URL: ${{secrets.GHOST_API_URL}}
+        GHOST_CONTENT_API_KEY: ${{secrets.GHOST_CONTENT_API_KEY}}
+        SITE_URL: ${{secrets.SITE_URL}}
 
     - name: Deploy to Firebase
       uses: lowply/deploy-firebase@v0.0.2
