@@ -18,7 +18,7 @@ jobs:
         with:
           version: 12.16.0
 
-      - name: Build
+      - name: Build and Deploy
         run: |
           yarn
           yarn build
