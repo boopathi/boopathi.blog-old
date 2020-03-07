@@ -109,9 +109,9 @@
       {% include "js/init-firebase.js" %}
     </script>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-analytics.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-performance-standalone.js" onload="initFirebase()"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js" onload="initFirebase()"></script>
+    <script async defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-analytics.js" onload="initFirebaseAnalytics()"></script>
+    <script async defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-performance-standalone.js" onload="initFirebasePerformance()"></script>
 
   </body>
 </html>

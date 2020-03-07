@@ -10,9 +10,15 @@ const firebaseConfig = {
   appId: "1:452500282162:web:a7205cf1b1185ed44c952b",
   measurementId: "G-FBDLWY9VFC"
 };
-
 function initFirebase() {
   firebase.initializeApp(firebaseConfig);
+}
+function initFirebasePerformance() {
+  // this is weird!!!!
+  firebase.initializeApp(firebaseConfig);
   window.firebasePerf = firebase.performance();
+}
+function initFirebaseAnalytics() {
+  firebase.initializeApp(firebaseConfig);
   window.firebaseAnalytics = firebase.analytics();
 }
