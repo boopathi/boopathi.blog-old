@@ -15,10 +15,14 @@ function initFirebase() {
 }
 function initFirebasePerformance() {
   // this is weird!!!!
-  firebase.initializeApp(firebaseConfig);
+  try {
+    initFirebase();
+  } catch (e) {}
   window.firebasePerf = firebase.performance();
 }
 function initFirebaseAnalytics() {
-  firebase.initializeApp(firebaseConfig);
+  try {
+    initFirebase();
+  } catch (e) {}
   window.firebaseAnalytics = firebase.analytics();
 }
