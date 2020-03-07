@@ -15,7 +15,3 @@ function initFirebase() {
   firebase.initializeApp(firebaseConfig);
   window.firebasePerf = firebase.performance();
 }
-
-if (firebase) {
-  initFirebase();
-}
