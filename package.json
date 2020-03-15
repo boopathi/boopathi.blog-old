@@ -29,9 +29,7 @@
     "html-minifier": "^4.0.0",
     "jimp": "^0.9.5",
     "jsdom": "^16.2.0",
-    "node-fetch": "^2.6.0"
-  },
-  "devDependencies": {
+    "node-fetch": "^2.6.0",
     "terser": "^4.6.6"
   }
 }
