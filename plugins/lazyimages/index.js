@@ -19,7 +19,7 @@ const defaultLazyImagesConfig = {
   transformImgPath,
   className: "lazyload",
   cacheFile: ".lazyimages.json",
-  appendInitScript: true,
+  appendInitScript: false,
   scriptSrc: "https://cdn.jsdelivr.net/npm/lazysizes@5.2.0/lazysizes.min.js"
 };
 
