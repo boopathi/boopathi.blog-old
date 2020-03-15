@@ -133,50 +133,6 @@ const processImage = async imgElem => {
 // Have to use lowest common denominator JS language features here
 // because we don't know what the target browser support is
 const initLazyImages = function(selector, src) {
-  if ("loading" in HTMLImageElement.prototype) {
-    let images;
-
-    function fetchImages() {
-      images = document.querySelectorAll(selector);
-      for (let i = 0; i < images.length; i++) {
-        tasks.push(createHandleImage(i));
-      }
-    }
-
-    function createHandleImage(i) {
-      return () => {
-        console.log("handling image ", i);
-        const img = images[i];
-        if (img.srcset && img.srcset.startsWith("data:")) {
-          img.srcset = "";
-        }
-        if (img.dataset.src) {
-          img.src = img.dataset.src;
-        } else if (
-          img.dataset.srcset &&
-          !img.dataset.srcset.startsWith("data:")
-        ) {
-          img.srcset = img.dataset.srcset;
-        }
-      };
-    }
-
-    const tasks = [fetchImages];
-
-    function runTasks(deadline) {
-      while (tasks.length && deadline.timeRemaining() > 0) {
-        tasks.shift()();
-      }
-      if (tasks.length) {
-        requestIdleCallback(runTasks);
-      }
-    }
-
-    requestIdleCallback(runTasks);
-
-    return;
-  }
-
   const script = document.createElement("script");
   script.async = true;
   script.src = src;
