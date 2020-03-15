@@ -1,6 +1,7 @@
 const fs = require("fs");
 const { JSDOM } = require("jsdom");
 const Jimp = require("jimp");
+const Terser = require("terser");
 
 const transformImgPath = src => {
   if (src.startsWith("/") && !src.startsWith("//")) {
@@ -133,29 +134,50 @@ const processImage = async imgElem => {
 // because we don't know what the target browser support is
 const initLazyImages = function(selector, src) {
   if ("loading" in HTMLImageElement.prototype) {
-    var images = document.querySelectorAll(selector);
-    var numImages = images.length;
+    let images;
 
-    if (numImages > 0) {
-      for (var i = 0; i < numImages; i++) {
-        if (images[i].srcset && images[i].srcset.startsWith("data:")) {
-          images[i].srcset = "";
-        }
-        if (images[i].dataset.src) {
-          images[i].src = images[i].dataset.src;
-        } else if (
-          images[i].dataset.srcset &&
-          !images[i].dataset.srcset.startsWith("data:")
-        ) {
-          images[i].srcset = images[i].dataset.srcset;
-        }
+    function fetchImages() {
+      images = document.querySelectorAll(selector);
+      for (let i = 0; i < images.length; i++) {
+        tasks.push(createHandleImage(i));
       }
     }
+
+    function createHandleImage(i) {
+      return () => {
+        console.log("handling image ", i);
+        const img = images[i];
+        if (img.srcset && img.srcset.startsWith("data:")) {
+          img.srcset = "";
+        }
+        if (img.dataset.src) {
+          img.src = img.dataset.src;
+        } else if (
+          img.dataset.srcset &&
+          !img.dataset.srcset.startsWith("data:")
+        ) {
+          img.srcset = img.dataset.srcset;
+        }
+      };
+    }
+
+    const tasks = [fetchImages];
+
+    function runTasks(deadline) {
+      while (tasks.length && deadline.timeRemaining() > 0) {
+        tasks.shift()();
+      }
+      if (tasks.length) {
+        requestIdleCallback(runTasks);
+      }
+    }
+
+    requestIdleCallback(runTasks);
 
     return;
   }
 
-  var script = document.createElement("script");
+  const script = document.createElement("script");
   script.async = true;
   script.src = src;
   document.body.appendChild(script);
@@ -193,14 +215,22 @@ const transformMarkup = async (rawContent, outputPath) => {
       logMessage(`processed ${images.length} images in ${outputPath}`);
 
       if (appendInitScript) {
+        let code = `
+          (${initLazyImages.toString()})(
+            '${imgSelector}',
+            '${scriptSrc}'
+          );
+        `;
+        const minified = Terser.minify(code);
+        if (minified.error) {
+          console.error(`Tersor Minification error: `, minified.error);
+        } else {
+          code = minified.code;
+        }
+
         dom.window.document.body.insertAdjacentHTML(
           "beforeend",
-          `<script>
-            (${initLazyImages.toString()})(
-              '${imgSelector}',
-              '${scriptSrc}'
-            );
-          </script>`
+          `<script>${code}</script>`
         );
       }
     }

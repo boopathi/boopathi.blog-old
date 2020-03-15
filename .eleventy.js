@@ -5,6 +5,7 @@ const fs = require("fs");
 const pluginRSS = require("@11ty/eleventy-plugin-rss");
 const ghostContentAPI = require("@tryghost/content-api");
 const cheerio = require("cheerio");
+const Terser = require("terser");
 
 const htmlMinTransform = require("./src/transforms/html-min-transform");
 const htmlLazyImages = require("./src/transforms/html-lazy-images");
@@ -45,6 +46,16 @@ module.exports = function(config) {
   // Inline CSS
   config.addFilter("cssmin", code => {
     return new cleanCSS({}).minify(code).styles;
+  });
+
+  // Inline JS
+  config.addFilter("jsmin", code => {
+    const minified = Terser.minify(code);
+    if (minified.error) {
+      console.error("Terser Error: ", minified.error);
+      return code;
+    }
+    return minified.code;
   });
 
   config.addFilter("getReadingTime", text => {
