@@ -539,25 +539,20 @@ img.light-mode-img {
 .post-card-title {
   margin: 0;
   display: inline-block;
-  font-size: 2.2rem;
-  font-weight: 600;
+  font-size: 2.4rem;
+  font-weight: 400;
   font-family: var(--font-sans-serif);
 }
 
 @media (max-width: 720px) {
   .post-card-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 }
 
-@media (max-width: 1200px) {
-  .post-card.no-image .post-card-title {
-    font-size: 3.4rem;
-  }
-}
-@media (max-width: 720px) {
-  .post-card.no-image:before {
-    font-size: 50vw;
+@media (max-width: 540px) {
+  .post-card-title {
+    font-size: 2.4rem;
   }
 }
 
@@ -740,21 +735,25 @@ h6 {
 .post-content-body pre {
   overflow-x: auto;
   margin: 1.5em 0 3em;
-  padding: 20px;
   max-width: 100%;
-  border: solid 1px var(--color-border);
-  color: var(--color-base);
-  font-size: 1.4rem;
+  border: solid 1px var(--color-base);
+  border-left: solid 0.5rem var(--color-base);
+  padding-left: 1.25rem;
   line-height: 1.5em;
-  background: var(--color-bg-dull);
-  border-radius: 5px;
+  background-color: var(--color-bg);
+  background-image: linear-gradient(
+    transparent 50%,
+    rgba(69, 142, 209, 0.04) 50%
+  );
+  background-size: 3em 3em;
+  background-origin: content-box;
+  background-attachment: local;
 }
 
 .content-body pre code,
 .post-content-body pre code {
   padding: 0;
-  font-size: inherit;
-  line-height: inherit;
+  font-size: smaller;
   background: transparent;
 }
 
