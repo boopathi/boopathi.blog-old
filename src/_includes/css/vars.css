@@ -1,7 +1,7 @@
 /* Variables
 /* ---------------------------------------------------------- */
 
-@import url("https://fonts.googleapis.com/css?family=Montserrat:200,200i,500,500i|Lora:400,400i|Crimson+Pro:500,500i|Roboto+Mono&display=swap");
+@import url("https://use.typekit.net/qzl1eld.css");
 
 :root {
   /* Colours */
@@ -9,15 +9,15 @@
   --color-base: #050709;
   --color-base-dull: #2b2b2b;
   --color-border: #e0e0e0;
-  --color-bg: #f8f8f8;
+  --color-bg: #fefefe;
   --color-bg-dull: #f0f0f0;
   --selection-bg: #cbeafb;
 
   /* Fonts */
-  --font-sans-serif: "Montserrat", sans-serif;
-  --font-serif: "Lora", serif;
-  --font-serif-2: "Crimson Pro", serif;
-  --font-mono: "Roboto Mono", monospace;
+  --font-sans-serif: acumin-pro, sans-serif;
+  --font-serif: lora, serif;
+  --font-serif-2: big-caslon-fb, serif;
+  --font-mono: fira-mono, monospace;
   --font-light: 100;
   --font-normal: 400;
   --font-bold: 700;

@@ -376,6 +376,7 @@ h1 {
 h2 {
   margin: 1.5em 0 0.25em 0;
   font-size: 3.2rem;
+  font-weight: 600;
 }
 @media (max-width: 720px) {
   h2 {
@@ -391,6 +392,7 @@ h2 {
 h3 {
   margin: 1.5em 0 1em 0;
   font-size: 2.4rem;
+  font-weight: 600;
 }
 @media (max-width: 720px) {
   h3 {
@@ -406,14 +408,17 @@ h3 {
 h4 {
   margin: 1.5em 0 1em 0;
   font-size: 2.4rem;
+  font-weight: 600;
 }
 
 h5 {
   margin: 1.5em 0 1em 0;
   font-size: 2.2rem;
+  font-weight: 600;
 }
 
 h6 {
   margin: 1.5em 0 1em 0;
   font-size: 2rem;
+  font-weight: 600;
 }

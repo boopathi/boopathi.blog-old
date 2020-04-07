@@ -9,6 +9,7 @@ const Terser = require("terser");
 
 const htmlMinTransform = require("./src/transforms/html-min-transform");
 const htmlLazyImages = require("./src/transforms/html-lazy-images");
+const htmlPurgecssTransform = require("./src/transforms/html-purge-css");
 const lazyImagesPlugin = require("./plugins/lazyimages");
 
 // Init Ghost API
@@ -26,6 +27,9 @@ const stripDomain = url => {
 module.exports = function(config) {
   // Minify HTML
   config.addTransform("htmlmin", htmlMinTransform);
+
+  // purge css
+  config.addTransform("htmlpurgecss", htmlPurgecssTransform);
 
   config.addTransform("htmlSrcSet", (value, outputPath) => {
     if (outputPath.includes(".html")) {
