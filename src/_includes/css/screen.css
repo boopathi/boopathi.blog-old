@@ -378,34 +378,36 @@ img.light-mode-img {
 .post-feed {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 1rem;
+  grid-gap: 2rem;
   max-width: 1024px;
   margin: 0 auto;
 }
 
 .post-card {
   position: relative;
-  padding: 2rem;
-  position: relative;
   overflow: hidden;
   counter-increment: posts;
-  border: solid 1px transparent;
-  border-radius: 2rem;
+  border-radius: 0.75rem;
   font-family: var(--font-sans-serif);
   font-weight: 200;
+  background: #fff;
+  box-shadow: rgba(50, 50, 50, 0.1) 0 0 2rem, rgba(50, 50, 50, 0.1) 0 0 0.2rem;
+  transition: transform 0.25s ease-out;
 }
 
-.post-card:hover {
-  border: solid 1px var(--color-border);
-  box-shadow: var(--color-border) 1px 1px 10px;
+@media (hover: hover) and (min-width: 540px) {
+  .post-card:hover {
+    transform: scale(1.03, 1.03);
+  }
 }
 
 .post-card a {
   text-decoration: none;
+  display: block;
 }
 
 .post-card-img {
-  height: 14vw;
+  height: 15vw;
   width: 100%;
   object-fit: cover;
 }
@@ -434,8 +436,14 @@ img.light-mode-img {
 }
 
 .post-card-content {
-  margin: 1rem 0;
+  padding: 2.5rem;
+  padding-bottom: 1rem;
   color: var(--color-base);
+}
+
+.post-card-tags {
+  padding: 2.5rem;
+  padding-top: 0;
 }
 
 .post-card-tags a {
@@ -474,11 +482,18 @@ img.light-mode-img {
 @media (max-width: 720px) {
   .post-feed {
     grid-template-columns: 1fr 1fr;
-    grid-gap: 0.5rem;
+    grid-gap: 1rem;
   }
-  .post-card {
-    padding: 1.4rem;
+
+  .post-card-content {
+    padding: 1rem;
+    padding-bottom: 0.5rem;
   }
+  .post-card-tags {
+    padding: 1rem;
+    padding-top: 0;
+  }
+
   .post-card-img {
     height: 40vw;
   }
@@ -497,10 +512,6 @@ img.light-mode-img {
   .post-card:hover {
     border: none;
     box-shadow: none;
-  }
-  .post-card-content,
-  .post-card-tags {
-    margin: 1rem;
   }
   .post-card-img {
     height: 70vw;
@@ -539,20 +550,20 @@ img.light-mode-img {
 .post-card-title {
   margin: 0;
   display: inline-block;
-  font-size: 2.4rem;
-  font-weight: 400;
+  font-size: 2rem;
+  font-weight: 600;
   font-family: var(--font-sans-serif);
 }
 
 @media (max-width: 720px) {
   .post-card-title {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
   }
 }
 
 @media (max-width: 540px) {
   .post-card-title {
-    font-size: 2.4rem;
+    font-size: 2rem;
   }
 }
 
@@ -710,8 +721,8 @@ h6 {
 
 .content-body code,
 .post-content-body code {
-  padding: 0 5px 2px;
-  font-size: 0.9em;
+  padding: 0 5px;
+  font-size: 0.8em;
   line-height: 1em;
   background: var(--color-bg-dull);
   border-radius: 3px;
