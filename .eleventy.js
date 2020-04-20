@@ -249,7 +249,9 @@ function getNextPosts(post) {
     const href = $(el).attr("href");
     if (
       href &&
-      (href.startsWith("https://blog.boopathi.in") || href.startsWith("/"))
+      (href.startsWith("https://blog.boopathi.in") ||
+        href.startsWith("https://boopathi.blog") ||
+        href.startsWith("/"))
     ) {
       nextPosts.push(href);
     }

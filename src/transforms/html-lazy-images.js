@@ -30,7 +30,8 @@ module.exports = function htmlLazyImages(html) {
       $el.attr("sizes", srcSizes);
       $el.attr("srcset", srcSet);
     } else if (
-      url.hostname.includes("blog.boopathi.in") &&
+      (url.hostname.includes("blog.boopathi.in") ||
+        url.hostname.includes("boopathi.blog")) &&
       url.pathname.includes("apple-touch-icon")
     ) {
       /**

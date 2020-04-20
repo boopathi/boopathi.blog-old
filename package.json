@@ -1,5 +1,5 @@
 {
-  "name": "blog.boopathi.in",
+  "name": "boopathi.blog",
   "private": true,
   "version": "1.0.0",
   "main": ".eleventy.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/boopathi/blog.boopathi.in"
+    "url": "git+https://github.com/boopathi/boopathi.blog"
   },
   "author": "Boopathi Rajaa",
   "dependencies": {
