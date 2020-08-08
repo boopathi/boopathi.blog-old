@@ -30,7 +30,7 @@
     "jimp": "^0.10.1",
     "jsdom": "^16.2.2",
     "node-fetch": "^2.6.0",
-    "prismjs": "^1.20.0",
+    "prismjs": "^1.21.0",
     "purgecss": "^2.1.0",
     "purgecss-from-html": "^2.1.0",
     "terser": "^4.6.10"
