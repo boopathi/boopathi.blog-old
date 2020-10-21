@@ -627,6 +627,7 @@ img.light-mode-img {
 .post-content-body {
   font-size: 1.8rem;
   line-height: 1.65em;
+  content-visibility: auto;
 }
 
 .content-body > :nth-child(n + 8),
