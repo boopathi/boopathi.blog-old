@@ -6,16 +6,16 @@ const ghostContentAPI = require("@tryghost/content-api");
 const api = new ghostContentAPI({
   url: process.env.GHOST_API_URL,
   key: process.env.GHOST_CONTENT_API_KEY,
-  version: "v2"
+  version: "v2",
 });
 
 // Get all site information
-module.exports = async function() {
+module.exports = async function () {
   const siteData = await api.settings
     .browse({
-      include: "icon,url"
+      include: "icon,url",
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err);
     });
 

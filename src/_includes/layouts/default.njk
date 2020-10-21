@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ site.lang }}" class="no-js">
+<html lang="en">
   <head>
     <title>
       {%- if title -%}
@@ -46,34 +46,40 @@
     {%- endblock -%}
 
     <!-- optimizations -->
-    <link rel="preload" href="{{site.logo}}" as="image" />
-    <link rel="preload" href="//use.typekit.net/qzl1eld.css" as="style" />
-    <link rel="preload" href="//cdn.jsdelivr.net/npm/lazysizes@5.2.0/lazysizes.min.js" as="script" />
-    <link rel="preconnect" href="//use.typekit.net" />
-    <link rel="preconnect" href="//www.googletagmanager.com/" />
-    <link rel="preconnect" href="//www.google-analytics.com/" />
-    <link rel="dns-prefetch" href="//www.googletagmanager.com/" />
-    <link rel="dns-prefetch" href="//www.google-analytics.com/" />
+    <link rel="preload" href="{{site.logo}}" as="image"/>
+    <link rel="preload" href="//use.typekit.net/qzl1eld.css" as="style"/>
+    <link rel="preload" href="//cdn.jsdelivr.net/npm/lazysizes@5.2.0/lazysizes.min.js" as="script"/>
+    <link rel="preconnect" href="//use.typekit.net"/>
+    <link rel="preconnect" href="//www.googletagmanager.com/"/>
+    <link rel="preconnect" href="//www.google-analytics.com/"/>
+    <link rel="dns-prefetch" href="//www.googletagmanager.com/"/>
+    <link rel="dns-prefetch" href="//www.google-analytics.com/"/>
 
-    {%- block speculation -%}
-    {%- endblock -%}
+    {%- block speculation -%}{%- endblock -%}
 
     {% set css %}
-      {%include "css/vars.css" %}
-      {%include "css/components/global.css" %}
-      {%include "css/components/ghost.css" %}
-      {%include "css/components/lists.css" %}
-      {%include "css/components/grid.css" %}
-      {%include "css/components/tables.css" %}
-      {%include "css/components/forms.css" %}
-      {%include "css/components/buttons.css" %}
-      {%include "css/components/actions.css" %}
-      {%include "css/components/hamburger.css" %}
-      {%include "css/screen.css" %}
+    {%include "css/vars.css" %}
+    {%include "css/components/global.css" %}
+    {%include "css/components/ghost.css" %}
+    {%include "css/components/lists.css" %}
+    {%include "css/components/grid.css" %}
+    {%include "css/components/tables.css" %}
+    {%include "css/components/forms.css" %}
+    {%include "css/components/buttons.css" %}
+    {%include "css/components/actions.css" %}
+    {%include "css/components/hamburger.css" %}
+    {%include "css/screen.css" %}
     {% endset %}
-    <style>{{ css | cssmin | safe }}</style>
+    <style>
+      {{css | cssmin | safe}}
+    </style>
 
-    <script>document.documentElement.classList.remove('no-js');</script>
+    <script>
+      document
+        .documentElement
+        .classList
+        .remove('no-js');
+    </script>
 
     {{ site.codeinjection_head | safe if site.codeinjection_head }}
     {{ codeinjection_head | safe if codeinjection_head }}
@@ -86,8 +92,7 @@
       </header>
 
       <main id="site-main" class="site-main">
-        {% block content %}
-        {% endblock content %}
+        {% block content %}{% endblock content %}
       </main>
 
       <footer class="site-foot">
@@ -99,7 +104,7 @@
     </div>
 
     {% set navBurger %}
-      {%include "js/nav-burger.js" %}
+    {%include "js/nav-burger.js" %}
     {% endset %}
     <script>
       {{ navBurger | jsmin | safe }}
@@ -109,13 +114,13 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-22586438-7"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      function gtag() {
+        dataLayer.push(arguments);
+      }
       gtag('js', new Date());
       gtag('config', 'UA-22586438-7');
     </script>
 
     <script async src="//cdn.jsdelivr.net/npm/lazysizes@5.2.0/lazysizes.min.js"></script>
-    {# <script defer src="/__/firebase/7.10.0/firebase-app.js"></script>
-    <script defer src="/__/firebase/7.10.0/firebase-performance.js"></script> #}
   </body>
 </html>

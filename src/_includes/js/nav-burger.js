@@ -1,7 +1,7 @@
 const id = document.getElementById("nav-burger");
 let isSiteHeadOpen = false;
 
-id.addEventListener("click", e => {
+id.addEventListener("click", (e) => {
   e.preventDefault();
 
   if (isSiteHeadOpen) {

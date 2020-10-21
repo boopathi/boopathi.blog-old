@@ -17,15 +17,15 @@ const lazyImagesPlugin = require("./plugins/lazyimages");
 const api = new ghostContentAPI({
   url: process.env.GHOST_API_URL,
   key: process.env.GHOST_CONTENT_API_KEY,
-  version: "v2"
+  version: "v2",
 });
 
 // Strip Ghost domain from urls
-const stripDomain = url => {
+const stripDomain = (url) => {
   return url.replace(process.env.GHOST_API_URL, "");
 };
 
-module.exports = function(config) {
+module.exports = function (config) {
   // PrismJS
   config.addTransform("htmlprismjs", htmlPrismjs);
 
@@ -48,16 +48,16 @@ module.exports = function(config) {
 
   // featured image in post
   config.addPlugin(lazyImagesPlugin, {
-    imgSelector: ".post-content-image img, .post-content img, .post-card-img"
+    imgSelector: ".post-content-image img, .post-content img, .post-card-img",
   });
 
   // Inline CSS
-  config.addFilter("cssmin", code => {
+  config.addFilter("cssmin", (code) => {
     return new cleanCSS({}).minify(code).styles;
   });
 
   // Inline JS
-  config.addFilter("jsmin", code => {
+  config.addFilter("jsmin", (code) => {
     const minified = Terser.minify(code);
     if (minified.error) {
       console.error("Terser Error: ", minified.error);
@@ -66,21 +66,21 @@ module.exports = function(config) {
     return minified.code;
   });
 
-  config.addFilter("getReadingTime", text => {
+  config.addFilter("getReadingTime", (text) => {
     const wordsPerMinute = 200;
     const numberOfWords = text.split(/\s/g).length;
     return Math.ceil(numberOfWords / wordsPerMinute);
   });
 
-  config.addFilter("log", obj => console.log(obj));
+  config.addFilter("log", (obj) => console.log(obj));
 
   config.addFilter(
     "capitalize",
-    str => str.charAt(0).toUpperCase() + str.slice(1)
+    (str) => str.charAt(0).toUpperCase() + str.slice(1)
   );
 
   // Date formatting filter
-  config.addFilter("htmlDateString", dateObj => {
+  config.addFilter("htmlDateString", (dateObj) => {
     const d = new Date(dateObj);
     const ye = new Intl.DateTimeFormat("en", { year: "numeric" }).format(d);
     const mo = new Intl.DateTimeFormat("en", { month: "short" }).format(d);
@@ -93,22 +93,23 @@ module.exports = function(config) {
 
   // Get all pages, called 'docs' to prevent
   // conflicting the eleventy page object
-  config.addCollection("docs", async function(collection) {
+  config.addCollection("docs", async function (collection) {
     collection = await api.pages
       .browse({
         include: "authors",
-        limit: "all"
+        limit: "all",
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
 
-    collection.map(doc => {
+    collection.map((doc) => {
       doc.url = stripDomain(doc.url);
       doc.primary_author.url = stripDomain(doc.primary_author.url);
 
       // Convert publish date into a Date object
       doc.published_at = new Date(doc.published_at);
+
       return doc;
     });
 
@@ -116,24 +117,26 @@ module.exports = function(config) {
   });
 
   // Get all posts
-  config.addCollection("posts", async function(collection) {
+  config.addCollection("posts", async function (collection) {
     collection = await api.posts
       .browse({
         include: "tags,authors",
-        limit: "all"
+        limit: "all",
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
 
-    collection.forEach(post => {
+    collection.forEach((post) => {
       post.url = stripDomain(post.url);
       post.primary_author.url = stripDomain(post.primary_author.url);
-      post.tags.map(tag => (tag.url = stripDomain(tag.url)));
+      post.tags.map((tag) => (tag.url = stripDomain(tag.url)));
       post.nextPosts = getNextPosts(post);
 
       // Convert publish date into a Date object
       post.published_at = new Date(post.published_at);
+      // required for rss plugin
+      post.date = post.published_at;
     });
 
     // Bring featured post to the top of the list
@@ -143,12 +146,12 @@ module.exports = function(config) {
   });
 
   // Get all authors
-  config.addCollection("authors", async function(collection) {
+  config.addCollection("authors", async function (collection) {
     collection = await api.authors
       .browse({
-        limit: "all"
+        limit: "all",
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
 
@@ -156,15 +159,15 @@ module.exports = function(config) {
     const posts = await api.posts
       .browse({
         include: "authors",
-        limit: "all"
+        limit: "all",
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
 
     // Attach posts to their respective authors
-    collection.forEach(async author => {
-      const authorsPosts = posts.filter(post => {
+    collection.forEach(async (author) => {
+      const authorsPosts = posts.filter((post) => {
         post.url = stripDomain(post.url);
         return post.primary_author.id === author.id;
       });
@@ -177,13 +180,13 @@ module.exports = function(config) {
   });
 
   // Get all tags
-  config.addCollection("tags", async function(collection) {
+  config.addCollection("tags", async function (collection) {
     collection = await api.tags
       .browse({
         include: "count.posts",
-        limit: "all"
+        limit: "all",
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
 
@@ -191,17 +194,17 @@ module.exports = function(config) {
     const posts = await api.posts
       .browse({
         include: "tags,authors",
-        limit: "all"
+        limit: "all",
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
 
     // Attach posts to their respective tags
-    collection.forEach(tag => {
-      const taggedPosts = posts.filter(post => {
+    collection.forEach((tag) => {
+      const taggedPosts = posts.filter((post) => {
         post.url = stripDomain(post.url);
-        return post.tags.some(ptag => ptag.slug === tag.slug);
+        return post.tags.some((ptag) => ptag.slug === tag.slug);
       });
       if (taggedPosts.length) tag.posts = taggedPosts;
 
@@ -222,22 +225,22 @@ module.exports = function(config) {
           res.write(content_404);
           res.end();
         });
-      }
-    }
+      },
+    },
   });
 
   // Eleventy configuration
   return {
     dir: {
       input: "src",
-      output: "dist"
+      output: "dist",
     },
 
     // Files read by Eleventy, add as needed
     templateFormats: ["css", "njk", "md", "txt"],
     htmlTemplateEngine: "njk",
     markdownTemplateEngine: "njk",
-    passthroughFileCopy: true
+    passthroughFileCopy: true,
   };
 };
 

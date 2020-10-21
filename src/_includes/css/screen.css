@@ -393,6 +393,8 @@ img.light-mode-img {
   background: #fff;
   box-shadow: rgba(50, 50, 50, 0.1) 0 0 2rem, rgba(50, 50, 50, 0.1) 0 0 0.2rem;
   transition: transform 0.25s ease-out;
+  content-visibility: auto;
+  contain-intrinsic-size: 400px 500px;
 }
 
 @media (hover: hover) and (min-width: 540px) {
@@ -623,6 +625,28 @@ img.light-mode-img {
 .post-content-body {
   font-size: 1.8rem;
   line-height: 1.65em;
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 5000px;
+}
+
+.content-body p,
+.post-content-body p,
+.content-body h1,
+.post-content-body h1,
+.content-body h2,
+.post-content-body h2,
+.content-body h3,
+.post-content-body h3,
+.content-body h4,
+.post-content-body h4,
+.content-body blockquote,
+.post-content-body blockquote,
+.content-body ol,
+.post-content-body ol,
+.content-body ul,
+.post-content-body ul {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 500px;
 }
 
 @media (max-width: 500px) {
