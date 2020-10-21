@@ -2,7 +2,9 @@
   <article class="post-card{% if post.featured %} post-card-featured{% endif %}">
     <a href="{{ post.url }}">
       {% if post.feature_image %}
-        <img class="post-card-img" src="{{ post.feature_image }}" alt="{{ post.title }}"/>
+        <figure>
+          <img class="post-card-img" src="{{ post.feature_image }}" alt="{{ post.title }}"/>
+        </figure>
       {% endif %}
 
       <div class="post-card-content">
