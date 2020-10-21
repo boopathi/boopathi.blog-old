@@ -48,7 +48,7 @@ module.exports = function (config) {
 
   // featured image in post
   config.addPlugin(lazyImagesPlugin, {
-    imgSelector: ".post-content-image img, .post-content img, .post-card-img",
+    imgSelector: ".post-content-body img, .post-card-img",
   });
 
   // Inline CSS

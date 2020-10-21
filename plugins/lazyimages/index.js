@@ -3,7 +3,7 @@ const { JSDOM } = require("jsdom");
 const Jimp = require("jimp");
 const Terser = require("terser");
 
-const transformImgPath = src => {
+const transformImgPath = (src) => {
   if (src.startsWith("/") && !src.startsWith("//")) {
     return `.${src}`;
   }
@@ -20,13 +20,13 @@ const defaultLazyImagesConfig = {
   className: "lazyload",
   cacheFile: ".lazyimages.json",
   appendInitScript: false,
-  scriptSrc: "https://cdn.jsdelivr.net/npm/lazysizes@5.2.0/lazysizes.min.js"
+  scriptSrc: "https://cdn.jsdelivr.net/npm/lazysizes@5.2.0/lazysizes.min.js",
 };
 
 let lazyImagesConfig = defaultLazyImagesConfig;
 let lazyImagesCache = {};
 
-const logMessage = message => {
+const logMessage = (message) => {
   console.log(`LazyImages - ${message}`);
 };
 
@@ -47,7 +47,7 @@ const loadCache = () => {
   }
 };
 
-const readCache = imageSrc => {
+const readCache = (imageSrc) => {
   if (imageSrc in lazyImagesCache) {
     return lazyImagesCache[imageSrc];
   }
@@ -62,7 +62,7 @@ const updateCache = (imageSrc, imageData) => {
   if (cacheFile) {
     const cacheData = JSON.stringify(lazyImagesCache);
 
-    fs.writeFile(cacheFile, cacheData, err => {
+    fs.writeFile(cacheFile, cacheData, (err) => {
       if (err) {
         console.error("LazyImages: cacheFile", e);
       }
@@ -70,11 +70,11 @@ const updateCache = (imageSrc, imageData) => {
   }
 };
 
-const getImageData = async imageSrc => {
+const getImageData = async (imageSrc) => {
   const {
     maxPlaceholderWidth,
     maxPlaceholderHeight,
-    placeholderQuality
+    placeholderQuality,
   } = lazyImagesConfig;
 
   let imageData = readCache(imageSrc);
@@ -98,7 +98,7 @@ const getImageData = async imageSrc => {
   imageData = {
     width,
     height,
-    src: encoded
+    src: encoded,
   };
 
   logMessage(`finished processing ${imageSrc}`);
@@ -106,17 +106,19 @@ const getImageData = async imageSrc => {
   return imageData;
 };
 
-const processImage = async imgElem => {
+const processImage = async (imgElem, shouldLazyLoadImage) => {
   const { transformImgPath, className } = lazyImagesConfig;
   const imgPath = transformImgPath(imgElem.src);
-  imgElem.classList.add(className);
 
-  if (imgElem.hasAttribute("srcset")) {
-    const srcSet = imgElem.getAttribute("srcset");
-    imgElem.setAttribute("data-srcset", srcSet);
-  } else {
-    const src = imgElem.getAttribute("src");
-    imgElem.setAttribute("data-src", src);
+  if (shouldLazyLoadImage) {
+    imgElem.classList.add(className);
+    if (imgElem.hasAttribute("srcset")) {
+      const srcSet = imgElem.getAttribute("srcset");
+      imgElem.setAttribute("data-srcset", srcSet);
+    } else {
+      const src = imgElem.getAttribute("src");
+      imgElem.setAttribute("data-src", src);
+    }
   }
 
   try {
@@ -124,7 +126,9 @@ const processImage = async imgElem => {
 
     imgElem.setAttribute("width", image.width);
     imgElem.setAttribute("height", image.height);
-    imgElem.setAttribute("srcset", image.src);
+    if (shouldLazyLoadImage) {
+      imgElem.setAttribute("srcset", image.src);
+    }
   } catch (e) {
     console.error("LazyImages", imgPath, e);
   }
@@ -132,7 +136,7 @@ const processImage = async imgElem => {
 
 // Have to use lowest common denominator JS language features here
 // because we don't know what the target browser support is
-const initLazyImages = function(selector, src) {
+const initLazyImages = function (selector, src) {
   const script = document.createElement("script");
   script.async = true;
   script.src = src;
@@ -161,13 +165,16 @@ const transformMarkup = async (rawContent, outputPath) => {
             imagesizes="${featureImage.sizes}" />
         `
       );
+      logMessage(`processing featured image in ${outputPath}`);
+      await processImage(featureImage, false);
+      logMessage(`processed featured image in ${outputPath}`);
     }
 
     const images = [...dom.window.document.querySelectorAll(imgSelector)];
 
     if (images.length > 0) {
       logMessage(`found ${images.length} images in ${outputPath}`);
-      await Promise.all(images.map(processImage));
+      await Promise.all(images.map((img) => processImage(img, true)));
       logMessage(`processed ${images.length} images in ${outputPath}`);
 
       if (appendInitScript) {
@@ -207,5 +214,5 @@ module.exports = {
 
     loadCache();
     eleventyConfig.addTransform("lazyimages", transformMarkup);
-  }
+  },
 };
