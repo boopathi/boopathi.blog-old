@@ -6,6 +6,9 @@ const pluginRSS = require("@11ty/eleventy-plugin-rss");
 const ghostContentAPI = require("@tryghost/content-api");
 const cheerio = require("cheerio");
 const Terser = require("terser");
+const fetch = require("node-fetch");
+const css = require("css");
+const fontFaceSrc = require("css-font-face-src");
 
 const htmlMinTransform = require("./src/transforms/html-min-transform");
 const htmlLazyImages = require("./src/transforms/html-lazy-images");
@@ -210,6 +213,29 @@ module.exports = function (config) {
 
       tag.url = stripDomain(tag.url);
     });
+
+    return collection;
+  });
+
+  config.addCollection("fontfaces", async () => {
+    const response = await fetch("https://use.typekit.net/qzl1eld.css");
+    const text = await response.text();
+    const { stylesheet } = css.parse(text);
+    const fontFaces = stylesheet.rules.filter((it) => it.type === "font-face");
+    const urls = new Set();
+    for (const fontFace of fontFaces) {
+      const srcDecl = fontFace.declarations.find((it) => it.property === "src");
+      if (srcDecl) {
+        const values = fontFaceSrc.parse(srcDecl.value);
+        for (const { format, url } of values) {
+          if (format === "woff" || format === "woff2") {
+            urls.add(url);
+          }
+        }
+      }
+    }
+
+    const collection = [...urls].map((url) => ({ url }));
 
     return collection;
   });

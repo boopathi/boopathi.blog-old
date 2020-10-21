@@ -28,7 +28,12 @@ pagination:
   <!-- optimizations -->
 
   {% for post in posts %}
-    <link href="{{ post.url }}" rel="prefetch" as="document" />
-    <link href="{{ post.url }}" rel="prerender" />
+    <link href="{{ post.url }}" rel="prefetch" as="document"/>
+    <link href="{{ post.url }}" rel="prerender"/>
   {% endfor %}
+
+  {% for fontface in collections.fontfaces %}
+    <link rel="preload" href="{{fontface.url}}" as="font"/>
+  {% endfor %}
+
 {%- endblock -%}
