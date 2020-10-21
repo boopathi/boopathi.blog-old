@@ -22,13 +22,13 @@
       {% endfor %}
     </div>
 
-    {# {% if post.feature_image %}
+    {% if post.feature_image %}
       <div class="post-content-image">
         <figure>
           <img class="kg-image" src="{{ post.feature_image }}" alt="{{ title }}">
         </figure>
       </div>
-    {% endif %} #}
+    {% endif %}
 
     <div class="post-content-body">
       {{ content | safe }}
