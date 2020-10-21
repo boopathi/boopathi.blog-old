@@ -1,5 +1,5 @@
 [build]
-  command = "yarn build && yarn deploy"
+  command = "yarn build"
   publish = "dist/"
 
 [build.environment]
