@@ -116,6 +116,8 @@ img.light-mode-img {
   color: var(--color-base-dull);
   font-size: 1.4rem;
   background: var(--color-bg);
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 50px;
 }
 
 .site-foot a {
@@ -625,26 +627,10 @@ img.light-mode-img {
 .post-content-body {
   font-size: 1.8rem;
   line-height: 1.65em;
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 5000px;
 }
 
-.content-body p,
-.post-content-body p,
-.content-body h1,
-.post-content-body h1,
-.content-body h2,
-.post-content-body h2,
-.content-body h3,
-.post-content-body h3,
-.content-body h4,
-.post-content-body h4,
-.content-body blockquote,
-.post-content-body blockquote,
-.content-body ol,
-.post-content-body ol,
-.content-body ul,
-.post-content-body ul {
+.content-body > :nth-child(n + 4),
+.post-content-body > :nth-child(n + 4) {
   content-visibility: auto;
   contain-intrinsic-size: 1px 500px;
 }
