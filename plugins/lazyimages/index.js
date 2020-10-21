@@ -1,7 +1,6 @@
 const fs = require("fs");
 const { JSDOM } = require("jsdom");
 const Jimp = require("jimp");
-const Terser = require("terser");
 
 const transformImgPath = (src) => {
   if (src.startsWith("/") && !src.startsWith("//")) {
@@ -19,8 +18,6 @@ const defaultLazyImagesConfig = {
   transformImgPath,
   className: "lazyload",
   cacheFile: ".lazyimages.json",
-  appendInitScript: false,
-  scriptSrc: "https://cdn.jsdelivr.net/npm/lazysizes@5.2.0/lazysizes.min.js",
 };
 
 let lazyImagesConfig = defaultLazyImagesConfig;
@@ -134,17 +131,8 @@ const processImage = async (imgElem, shouldLazyLoadImage) => {
   }
 };
 
-// Have to use lowest common denominator JS language features here
-// because we don't know what the target browser support is
-const initLazyImages = function (selector, src) {
-  const script = document.createElement("script");
-  script.async = true;
-  script.src = src;
-  document.body.appendChild(script);
-};
-
 const transformMarkup = async (rawContent, outputPath) => {
-  const { imgSelector, appendInitScript, scriptSrc } = lazyImagesConfig;
+  const { imgSelector } = lazyImagesConfig;
   let content = rawContent;
 
   if (outputPath.endsWith(".html")) {
@@ -176,26 +164,6 @@ const transformMarkup = async (rawContent, outputPath) => {
       logMessage(`found ${images.length} images in ${outputPath}`);
       await Promise.all(images.map((img) => processImage(img, true)));
       logMessage(`processed ${images.length} images in ${outputPath}`);
-
-      if (appendInitScript) {
-        let code = `
-          (${initLazyImages.toString()})(
-            '${imgSelector}',
-            '${scriptSrc}'
-          );
-        `;
-        const minified = Terser.minify(code);
-        if (minified.error) {
-          console.error(`Tersor Minification error: `, minified.error);
-        } else {
-          code = minified.code;
-        }
-
-        dom.window.document.body.insertAdjacentHTML(
-          "beforeend",
-          `<script>${code}</script>`
-        );
-      }
     }
     content = dom.serialize();
   }
