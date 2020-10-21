@@ -629,8 +629,8 @@ img.light-mode-img {
   line-height: 1.65em;
 }
 
-.content-body > :nth-child(n + 4),
-.post-content-body > :nth-child(n + 4) {
+.content-body > :nth-child(n + 8),
+.post-content-body > :nth-child(n + 8) {
   content-visibility: auto;
   contain-intrinsic-size: 1px 500px;
 }
