@@ -166,7 +166,7 @@ const transformMarkup = async (rawContent, outputPath) => {
         `
       );
       logMessage(`processing featured image in ${outputPath}`);
-      await processImage(featureImage, false);
+      await processImage(featureImage, true);
       logMessage(`processed featured image in ${outputPath}`);
     }
 
