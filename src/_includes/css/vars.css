@@ -14,10 +14,10 @@
   --selection-bg: #cbeafb;
 
   /* Fonts */
-  --font-sans-serif: acumin-pro, sans-serif;
+  --font-sans-serif: sans-serif;
   --font-serif: lora, serif;
   --font-serif-2: big-caslon-fb, serif;
-  --font-mono: fira-mono, monospace;
+  --font-mono: monospace;
   --font-light: 100;
   --font-normal: 400;
   --font-bold: 700;
