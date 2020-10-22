@@ -30,10 +30,16 @@ pagination:
   {% for post in posts %}
     <link href="{{ post.url }}" rel="prefetch" as="document"/>
     <link href="{{ post.url }}" rel="prerender"/>
+    <link
+      rel="preload"
+      as="image"
+      href="{{ post.feature_image }}"
+      imagesrcset="{{ post.postcardImageSrcSet }}"
+      imagesizes="{{ post.postcardImageSizes }}"/>
   {% endfor %}
 
   {% for fontface in collections.fontfaces %}
-    <link rel="preload" href="{{fontface.url}}" as="font"/>
+    <link rel="preload" href="{{ fontface.url }}" as="font"/>
   {% endfor %}
 
 {%- endblock -%}

@@ -11,7 +11,11 @@ const css = require("css");
 const fontFaceSrc = require("css-font-face-src");
 
 const htmlMinTransform = require("./src/transforms/html-min-transform");
-const htmlLazyImages = require("./src/transforms/html-lazy-images");
+const {
+  htmlLazyImages,
+  processFeatureImage,
+  processPostcardImage,
+} = require("./src/transforms/html-lazy-images");
 const htmlPurgecssTransform = require("./src/transforms/html-purge-css");
 const htmlPrismjs = require("./src/transforms/html-prismjs");
 const lazyImagesPlugin = require("./plugins/lazyimages");
@@ -140,6 +144,15 @@ module.exports = function (config) {
       post.published_at = new Date(post.published_at);
       // required for rss plugin
       post.date = post.published_at;
+
+      if (post.feature_image) {
+        const featureImage = processFeatureImage(post.feature_image);
+        const postcardImage = processPostcardImage(post.feature_image);
+        post.featureImageSrcSet = featureImage.srcSet;
+        post.featureImageSizes = featureImage.sizes;
+        post.postcardImageSrcSet = postcardImage.srcSet;
+        post.postcardImageSizes = postcardImage.sizes;
+      }
     });
 
     // Bring featured post to the top of the list

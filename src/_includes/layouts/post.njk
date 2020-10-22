@@ -73,4 +73,13 @@
     <link rel="prefetch" href="{{href}}" as="document"/>
     <link rel="prerender" href="{{href}}"/>
   {% endfor %}
+
+  {% if post.feature_image %}
+    <link
+      rel="preload"
+      as="image"
+      href="{{ post.feature_image }}"
+      imagesrcset="{{ post.featureImageSrcSet }}"
+      imagesizes="{{ post.featureImageSizes }}"/>
+  {% endif %}
 {%- endblock -%}

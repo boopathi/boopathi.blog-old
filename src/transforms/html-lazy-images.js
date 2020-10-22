@@ -2,10 +2,18 @@
 
 const cheerio = require("cheerio");
 
-const sizes = [480, 720, 960, 1200, 1440];
-const srcSizes = `(max-width: 720px) 100vw, 720px`;
+const postContentImageSizes = [480, 720, 960, 1200, 1440];
+const postContentImageSrcSizes = `(max-width: 720px) 100vw, 720px`;
+const featureImageSizes = [480, 720, 960, 1200, 1440, 1600, 2000];
+const featureImageSrcSizes = `(max-width: 720px) 100vw, 75vw`;
+const postcardImageSizes = [480, 720, 960, 1200];
+const postcardImageSrcSizes = `(max-width: 540px) 100vw, (max-width: 960px) 48vw, (max-width: 1024px) 30vw, 300px`;
 
-module.exports = function htmlLazyImages(html) {
+exports.processFeatureImage = processFeatureImage;
+exports.processPostcardImage = processPostcardImage;
+exports.htmlLazyImages = htmlLazyImages;
+
+function htmlLazyImages(html) {
   const $ = cheerio.load(html);
 
   const $bodyImages = $(".post-content-body img");
@@ -17,17 +25,31 @@ module.exports = function htmlLazyImages(html) {
     const url = new URL(src);
 
     if (url.hostname.includes("unsplash")) {
-      const srcSet = sizes.map(w => makeUnsplashImage(src, w)).join(", ");
-      $el.attr("src", makeUnsplashUrl(src, sizes[sizes.length - 1]));
-      $el.attr("sizes", srcSizes);
+      const srcSet = postContentImageSizes
+        .map((w) => makeUnsplashImage(src, w))
+        .join(", ");
+      $el.attr(
+        "src",
+        makeUnsplashUrl(
+          src,
+          postContentImageSizes[postContentImageSizes.length - 1]
+        )
+      );
+      $el.attr("sizes", postContentImageSrcSizes);
       $el.attr("srcset", srcSet);
     } else if (url.hostname.includes("cloudinary")) {
       const originalSrc = $el.attr("src");
-      const srcSet = sizes
-        .map(w => makeCloudinaryImage(originalSrc, w))
+      const srcSet = postContentImageSizes
+        .map((w) => makeCloudinaryImage(originalSrc, w))
         .join(", ");
-      $el.attr("src", makeCloudinaryUrl(src, sizes[sizes.length - 1]));
-      $el.attr("sizes", srcSizes);
+      $el.attr(
+        "src",
+        makeCloudinaryUrl(
+          src,
+          postContentImageSizes[postContentImageSizes.length - 1]
+        )
+      );
+      $el.attr("sizes", postContentImageSrcSizes);
       $el.attr("srcset", srcSet);
     } else if (
       (url.hostname.includes("blog.boopathi.in") ||
@@ -48,18 +70,17 @@ module.exports = function htmlLazyImages(html) {
   $featureImages.each((i, el) => {
     const $el = $(el);
     $el.attr("loading", "lazy");
-    const featureImageSizes = [480, 720, 960, 1200, 1440, 1600, 2000];
 
     const src = $el.attr("src");
     const srcSet = featureImageSizes
-      .map(w => makeCloudinaryImage(src, w))
+      .map((w) => makeCloudinaryImage(src, w))
       .join(", ");
 
     $el.attr(
       "src",
       makeCloudinaryUrl(src, featureImageSizes[featureImageSizes.length - 1])
     );
-    $el.attr("sizes", `(max-width: 720px) 100vw, 75vw`);
+    $el.attr("sizes", featureImageSrcSizes);
     $el.attr("srcset", srcSet);
   });
 
@@ -67,26 +88,38 @@ module.exports = function htmlLazyImages(html) {
   $postcardImages.each((i, el) => {
     const $el = $(el);
     $el.attr("loading", "lazy");
-    const postcardImagesizes = [480, 720, 960, 1200];
 
     const src = $el.attr("src");
-    const srcSet = postcardImagesizes
-      .map(w => makeCloudinaryImage(src, w))
+    const srcSet = postcardImageSizes
+      .map((w) => makeCloudinaryImage(src, w))
       .join(", ");
 
     $el.attr(
       "src",
-      makeCloudinaryUrl(src, postcardImagesizes[postcardImagesizes.length - 1])
+      makeCloudinaryUrl(src, postcardImageSizes[postcardImageSizes.length - 1])
     );
-    $el.attr(
-      "sizes",
-      `(max-width: 540px) 100vw, (max-width: 960px) 48vw, (max-width: 1024px) 30vw, 300px`
-    );
+    $el.attr("sizes", postcardImageSrcSizes);
     $el.attr("srcset", srcSet);
   });
 
   return $.html();
-};
+}
+
+function processFeatureImage(url) {
+  const srcSet = featureImageSizes
+    .map((width) => makeCloudinaryImage(url, width))
+    .join(", ");
+
+  return { srcSet, sizes: featureImageSrcSizes };
+}
+
+function processPostcardImage(url) {
+  const srcSet = postcardImageSizes
+    .map((width) => makeCloudinaryImage(url, width))
+    .join(", ");
+
+  return { srcSet, sizes: postcardImageSrcSizes };
+}
 
 function makeUnsplashImage(src, width, extras = "") {
   return `${makeUnsplashUrl(src, width, extras)} ${width}w`;

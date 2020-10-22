@@ -46,14 +46,10 @@
     {%- endblock -%}
 
     <!-- optimizations -->
+    <link rel="preconnect" href="//use.typekit.net"/>
     <link rel="preload" href="{{site.logo}}" as="image"/>
     <link rel="preload" href="//use.typekit.net/qzl1eld.css" as="style"/>
     <link rel="preload" href="//cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js" as="script"/>
-    <link rel="preconnect" href="//use.typekit.net"/>
-    <link rel="preconnect" href="//www.googletagmanager.com/"/>
-    <link rel="preconnect" href="//www.google-analytics.com/"/>
-    <link rel="dns-prefetch" href="//www.googletagmanager.com/"/>
-    <link rel="dns-prefetch" href="//www.google-analytics.com/"/>
 
     {%- block speculation -%}{%- endblock -%}
 
@@ -73,13 +69,6 @@
     <style>
       {{css | cssmin | safe}}
     </style>
-
-    <script>
-      document
-        .documentElement
-        .classList
-        .remove('no-js');
-    </script>
 
     {{ site.codeinjection_head | safe if site.codeinjection_head }}
     {{ codeinjection_head | safe if codeinjection_head }}
@@ -109,12 +98,10 @@
     <script>
       {{ navBurger | jsmin | safe }}
     </script>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-
     <script async src="//cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script>
 
-    {# <script async src="https://www.googletagmanager.com/gtag/js?id=UA-22586438-7"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-22586438-7"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -122,6 +109,6 @@
       }
       gtag('js', new Date());
       gtag('config', 'UA-22586438-7');
-    </script> #}
+    </script>
   </body>
 </html>
