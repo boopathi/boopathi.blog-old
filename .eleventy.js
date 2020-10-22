@@ -249,7 +249,9 @@ module.exports = function (config) {
     }
 
     return {
-      styles: text,
+      styles: css.stringify({
+        stylesheet: { rules: fontFaces },
+      }),
       urls: [...urls],
     };
   });
