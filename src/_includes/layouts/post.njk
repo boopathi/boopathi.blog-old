@@ -82,4 +82,11 @@
       imagesrcset="{{ post.featureImageSrcSet }}"
       imagesizes="{{ post.featureImageSizes }}"/>
   {% endif %}
+
+  {% for url in collections.fontfaces.urls %}
+    <link rel="preload" href="{{ url }}" as="font"/>
+  {% endfor %}
+  <style>
+    {{collections.fontfaces.styles | cssmin | safe}}
+  </style>
 {%- endblock -%}

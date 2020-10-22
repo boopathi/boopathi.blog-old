@@ -248,9 +248,10 @@ module.exports = function (config) {
       }
     }
 
-    const collection = [...urls].map((url) => ({ url }));
-
-    return collection;
+    return {
+      styles: text,
+      urls: [...urls],
+    };
   });
 
   // Display 404 page in BrowserSnyc
