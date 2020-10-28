@@ -3,13 +3,15 @@
 
 :root {
   /* Colours */
-  --color-primary: #3740ff;
+  --color-primary: #00008b;
   --color-base: #050709;
   --color-base-dull: #2b2b2b;
   --color-border: #e0e0e0;
   --color-bg: #fefefe;
   --color-bg-dull: #f0f0f0;
   --selection-bg: #cbeafb;
+  --color-dark-bg: #2a2a2a;
+  --color-dark-fg: #fefefe;
 
   /* Fonts */
   --font-sans-serif: sans-serif;

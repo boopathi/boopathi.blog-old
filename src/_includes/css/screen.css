@@ -770,20 +770,13 @@ h6 {
 .content-body pre,
 .post-content-body pre {
   overflow-x: auto;
+  font-size: large;
   margin: 1.5em 0 3em;
   max-width: 100%;
-  border: solid 1px var(--color-base);
-  border-left: solid 0.5rem var(--color-base);
   padding-left: 1.25rem;
+  background: var(--color-dark-bg);
+  color: var(--color-dark-fg);
   line-height: 1.5em;
-  background-color: var(--color-bg);
-  background-image: linear-gradient(
-    transparent 50%,
-    rgba(69, 142, 209, 0.04) 50%
-  );
-  background-size: 3em 3em;
-  background-origin: content-box;
-  background-attachment: local;
 }
 
 .content-body pre code,
