@@ -569,7 +569,7 @@ img.light-mode-img {
   margin: 0;
   display: inline-block;
   font-size: 2rem;
-  font-weight: 600;
+  font-weight: 500;
   font-family: var(--font-sans-serif);
 }
 
