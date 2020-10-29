@@ -238,31 +238,31 @@ module.exports = function (config) {
     return collection;
   });
 
-  config.addCollection("fontfaces", async () => {
-    const response = await fetch("https://use.typekit.net/qzl1eld.css");
-    const text = await response.text();
-    const { stylesheet } = css.parse(text);
-    const fontFaces = stylesheet.rules.filter((it) => it.type === "font-face");
-    const urls = new Set();
-    for (const fontFace of fontFaces) {
-      const srcDecl = fontFace.declarations.find((it) => it.property === "src");
-      if (srcDecl) {
-        const values = fontFaceSrc.parse(srcDecl.value);
-        for (const { format, url } of values) {
-          if (format === "woff" || format === "woff2") {
-            urls.add(url);
-          }
-        }
-      }
-    }
+  // config.addCollection("fontfaces", async () => {
+  //   const response = await fetch("https://use.typekit.net/qzl1eld.css");
+  //   const text = await response.text();
+  //   const { stylesheet } = css.parse(text);
+  //   const fontFaces = stylesheet.rules.filter((it) => it.type === "font-face");
+  //   const urls = new Set();
+  //   for (const fontFace of fontFaces) {
+  //     const srcDecl = fontFace.declarations.find((it) => it.property === "src");
+  //     if (srcDecl) {
+  //       const values = fontFaceSrc.parse(srcDecl.value);
+  //       for (const { format, url } of values) {
+  //         if (format === "woff2") {
+  //           urls.add(url);
+  //         }
+  //       }
+  //     }
+  //   }
 
-    return {
-      styles: css.stringify({
-        stylesheet: { rules: fontFaces },
-      }),
-      urls: [...urls],
-    };
-  });
+  //   return {
+  //     styles: css.stringify({
+  //       stylesheet: { rules: fontFaces },
+  //     }),
+  //     urls: [...urls],
+  //   };
+  // });
 
   // Display 404 page in BrowserSnyc
   config.setBrowserSyncConfig({

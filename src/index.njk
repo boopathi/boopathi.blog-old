@@ -46,11 +46,11 @@ pagination:
       imagesizes="{{ post[i].postcardImageSizes }}"/>
   {% endfor %}
 
-  {% for url in collections.fontfaces.urls %}
+  {# {% for url in collections.fontfaces.urls %}
     <link rel="preload" href="{{ url }}" as="font"/>
   {% endfor %}
   <style>
     {{collections.fontfaces.styles | cssmin | safe}}
-  </style>
+  </style> #}
 
 {%- endblock -%}
