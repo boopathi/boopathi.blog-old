@@ -32,8 +32,10 @@ pagination:
   <!-- optimizations -->
 
   {% for post in posts %}
-    <link href="{{ post.url }}" rel="prefetch" as="document"/>
-    <link href="{{ post.url }}" rel="prerender"/>
+    {% if post.shouldPreload %}
+      <link href="{{ post.url }}" rel="prefetch" as="document"/>
+      <link href="{{ post.url }}" rel="prerender"/>
+    {% endif %}
   {% endfor %}
 
   {# Preload only first 2 images #}

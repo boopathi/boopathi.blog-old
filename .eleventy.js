@@ -142,7 +142,7 @@ module.exports = function (config) {
         console.error(err);
       });
 
-    collection.forEach((post) => {
+    collection.forEach((post, i) => {
       post.url = stripDomain(post.url);
       post.primary_author.url = stripDomain(post.primary_author.url);
       post.tags.map((tag) => (tag.url = stripDomain(tag.url)));
@@ -152,6 +152,7 @@ module.exports = function (config) {
       post.published_at = new Date(post.published_at);
       // required for rss plugin
       post.date = post.published_at;
+      post.shouldPreload = i < 3;
 
       if (post.feature_image) {
         const featureImage = processFeatureImage(post.feature_image);
