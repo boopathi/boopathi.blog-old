@@ -125,8 +125,8 @@ img.light-mode-img {
   color: var(--color-base-dull);
   font-size: 1.4rem;
   background: var(--color-bg);
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 50px;
+  /* content-visibility: auto;
+  contain-intrinsic-size: 1px 50px; */
 }
 
 .site-foot a {
@@ -477,10 +477,10 @@ img.light-mode-img {
   font-size: small;
 }
 
-.post-feed > :nth-child(n + 7) {
+/* .post-feed > :nth-child(n + 7) {
   content-visibility: auto;
   contain-intrinsic-size: 1px 500px;
-}
+} */
 
 @media (max-width: 1024px) {
   .post-feed {
@@ -491,10 +491,10 @@ img.light-mode-img {
   .post-feed {
     grid-template-columns: 1fr 1fr;
   }
-  .post-feed > :nth-child(n + 5) {
+  /* .post-feed > :nth-child(n + 5) {
     content-visibility: auto;
     contain-intrinsic-size: 1px 500px;
-  }
+  } */
   .post-card-img {
     height: 40vw;
   }
@@ -504,10 +504,10 @@ img.light-mode-img {
     grid-template-columns: 1fr 1fr;
     grid-gap: 1rem;
   }
-  .post-feed > :nth-child(n + 5) {
+  /* .post-feed > :nth-child(n + 5) {
     content-visibility: auto;
     contain-intrinsic-size: 1px 500px;
-  }
+  } */
   .post-card-content {
     padding: 1rem;
     padding-bottom: 0.5rem;
@@ -527,10 +527,10 @@ img.light-mode-img {
     margin: 0;
     grid-gap: 2rem;
   }
-  .post-feed > :nth-child(n + 3) {
+  /* .post-feed > :nth-child(n + 3) {
     content-visibility: auto;
     contain-intrinsic-size: 1px 500px;
-  }
+  } */
   .post-card {
     padding: 0;
     border: none;
@@ -645,14 +645,14 @@ img.light-mode-img {
 .post-content-body {
   font-size: 1.8rem;
   line-height: 1.65em;
-  content-visibility: auto;
+  /* content-visibility: auto; */
 }
 
-.content-body > :nth-child(n + 8),
+/* .content-body > :nth-child(n + 8),
 .post-content-body > :nth-child(n + 8) {
   content-visibility: auto;
   contain-intrinsic-size: 1px 500px;
-}
+} */
 
 @media (max-width: 500px) {
   .content-body,
