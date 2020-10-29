@@ -61,10 +61,19 @@ img.light-mode-img {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 13vw 0;
-  max-width: 70%;
+  padding: 6rem 0;
+  max-width: 80%;
   margin: auto;
   text-align: center;
+}
+
+.page-intro {
+  margin: auto;
+  max-width: min(1024px, 80%);
+  padding: 1rem 0;
+  padding-bottom: 3rem;
+  font-size: 2rem;
+  line-height: 3rem;
 }
 
 .error-head {
@@ -94,7 +103,7 @@ img.light-mode-img {
 
 .page-head-title {
   margin: 0;
-  font-size: 4.2rem;
+  font-size: 4rem;
   color: var(--color-base);
 }
 
@@ -592,18 +601,13 @@ img.light-mode-img {
 .post-content {
   max-width: 720px;
   margin: 0 auto;
-  padding: 6vw 0;
 }
 
 .post-content-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 1rem;
   position: relative;
-  width: 75vw;
-  margin: 0 calc(50% - 50vw);
-  transform: translateX(calc(50vw - 50%));
+  width: 90%;
+  padding: 2rem 0;
+  margin: 0 auto;
 }
 
 .content-title,

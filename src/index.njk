@@ -15,6 +15,10 @@ pagination:
     <h1 class="page-head-title">{{ site.description }}</h1>
   </header>
 
+  <section class="page-intro">
+    {{ collections.intro.html | safe }}
+  </section>
+
   <section class="post-feed">
     {% for post in posts %}
       {{ card(post) }}

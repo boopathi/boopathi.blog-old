@@ -123,6 +123,14 @@ module.exports = function (config) {
     return collection;
   });
 
+  config.addCollection("intro", async () => {
+    const collection = await api.pages.read({
+      slug: "home-content",
+    });
+
+    return collection;
+  });
+
   // Get all posts
   config.addCollection("posts", async function (collection) {
     collection = await api.posts
