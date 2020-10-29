@@ -14,9 +14,9 @@
   --color-dark-fg: #fefefe;
 
   /* Fonts */
-  --font-sans-serif: sans-serif;
-  --font-serif: lora, serif;
-  --font-serif-2: big-caslon-fb, serif;
+  --font-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  --font-serif: "Georgia", serif;
   --font-mono: monospace;
   --font-light: 100;
   --font-normal: 400;

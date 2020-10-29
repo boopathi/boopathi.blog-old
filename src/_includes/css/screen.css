@@ -2,7 +2,7 @@
 /* ---------------------------------------------------------- */
 
 body {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans-serif);
   background: var(--color-bg);
 }
 
@@ -19,15 +19,6 @@ img.dark-mode-img {
 img.light-mode-img {
   display: block;
 }
-
-/* @media (prefers-color-scheme: dark) {
-    img.dark-mode-img {
-        display: block;
-    }
-    img.light-mode-img {
-        display: none;
-    }
-} */
 
 .img {
   width: 100%;
@@ -62,14 +53,14 @@ img.light-mode-img {
   align-items: center;
   justify-content: center;
   padding: 6rem 0;
-  max-width: 80%;
+  max-width: 85%;
   margin: auto;
   text-align: center;
 }
 
 .page-intro {
   margin: auto;
-  max-width: min(1024px, 80%);
+  max-width: min(1024px, 85%);
   padding: 1rem 0;
   padding-bottom: 3rem;
   font-size: 2rem;
@@ -664,7 +655,7 @@ img.light-mode-img {
 .content-title,
 .post-content-title,
 h1 {
-  font-family: var(--font-serif-2);
+  font-family: var(--font-serif);
 }
 
 h2,

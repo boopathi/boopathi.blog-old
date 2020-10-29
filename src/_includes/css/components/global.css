@@ -112,7 +112,7 @@ img {
 }
 html {
   box-sizing: border-box;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans-serif);
 
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
