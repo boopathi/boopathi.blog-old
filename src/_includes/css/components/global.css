@@ -261,7 +261,7 @@ html {
 
 body {
   overflow-x: hidden;
-  color: var(--color-base);
+  color: var(--color-text);
   font-size: 1.5rem;
   line-height: 1.6em;
   font-weight: 400;
@@ -272,11 +272,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -moz-font-feature-settings: "liga" on;
-}
-
-::selection {
-  text-shadow: none;
-  background: var(--selection-bg);
 }
 
 hr {

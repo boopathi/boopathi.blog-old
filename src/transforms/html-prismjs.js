@@ -4,7 +4,7 @@ const fs = require("fs");
 
 const cheerio = require("cheerio");
 
-loadLanguages(["graphql", "typescript", "json", "javascript", "http"]);
+loadLanguages(["graphql", "typescript", "json", "javascript", "http", "bash"]);
 
 const prismcss = fs.readFileSync(
   require.resolve("prismjs/themes/prism-tomorrow.css"),

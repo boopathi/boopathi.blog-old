@@ -23,7 +23,7 @@
   line-height: 1.2em;
   font-weight: 100;
   font-family: var(--font-sans-serif);
-  color: var(--color-base);
+  color: var(--color-text);
   text-align: center;
   opacity: 0.7;
 }
@@ -106,7 +106,7 @@
 
 .kg-bookmark-container {
   display: flex;
-  color: var(--color-base);
+  color: var(--color-text);
   text-decoration: none;
   min-height: 148px;
 }
@@ -129,7 +129,7 @@
   font-size: 100%;
   line-height: 1.5em;
   font-weight: 600;
-  color: var(--color-base);
+  color: var(--color-text);
 }
 
 .kg-bookmark-container:hover .kg-bookmark-title {

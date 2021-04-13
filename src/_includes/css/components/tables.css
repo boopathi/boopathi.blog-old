@@ -9,7 +9,7 @@ table {
 }
 
 th {
-  color: var(--color-base);
+  color: var(--color-text);
   font-size: 0.9em;
   font-weight: var(--font-bold);
   padding: 0 0.7em 0.4em 0.7em;

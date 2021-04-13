@@ -2,7 +2,7 @@ const { PurgeCSS } = require("purgecss");
 const fromHtml = require("purgecss-from-html");
 const cheerio = require("cheerio");
 
-module.exports = async function htmlPurgecss(value, outputPath) {
+module.exports = async function htmlPurgeCss(value, outputPath) {
   if (outputPath.indexOf(".html") > -1) {
     const purger = new PurgeCSS();
 
@@ -14,20 +14,20 @@ module.exports = async function htmlPurgecss(value, outputPath) {
       content: [
         {
           raw: value,
-          extension: "html"
-        }
+          extension: "html",
+        },
       ],
-      css: css.map(raw => ({
+      css: css.map((raw) => ({
         raw,
-        extension: "css"
+        extension: "css",
       })),
       whitelist: ["site-head-open"],
       extractors: [
         {
           extractor: fromHtml,
-          extensions: ["html"]
-        }
-      ]
+          extensions: ["html"],
+        },
+      ],
     });
 
     replaceStyleContents($, results);

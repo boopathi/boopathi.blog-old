@@ -91,23 +91,9 @@
       {{ codeinjection_foot | safe if codeinjection_foot }}
     </div>
 
-    {% set navBurger %}
-    {%include "js/nav-burger.js" %}
-    {% endset %}
-    <script>
-      {{ navBurger | jsmin | safe }}
-    </script>
     <script async src="//cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    {# <script async src="https://www.googletagmanager.com/gtag/js?id=UA-22586438-7"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-      gtag('config', 'UA-22586438-7');
-    </script> #}
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "f5a5a3276dd8498cbe64652728f8837e"}'></script>
+    <!-- End Cloudflare Web Analytics -->
   </body>
 </html>

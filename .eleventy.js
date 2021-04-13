@@ -6,9 +6,6 @@ const pluginRSS = require("@11ty/eleventy-plugin-rss");
 const ghostContentAPI = require("@tryghost/content-api");
 const cheerio = require("cheerio");
 const Terser = require("terser");
-const fetch = require("node-fetch");
-const css = require("css");
-const fontFaceSrc = require("css-font-face-src");
 
 const htmlMinTransform = require("./src/transforms/html-min-transform");
 const {
@@ -18,7 +15,6 @@ const {
 } = require("./src/transforms/html-lazy-images");
 const htmlPurgecssTransform = require("./src/transforms/html-purge-css");
 const htmlPrismjs = require("./src/transforms/html-prismjs");
-const lazyImagesPlugin = require("./plugins/lazyimages");
 
 // Init Ghost API
 const api = new ghostContentAPI({
@@ -52,11 +48,6 @@ module.exports = function (config) {
 
   // Assist RSS feed template
   config.addPlugin(pluginRSS);
-
-  // featured image in post
-  config.addPlugin(lazyImagesPlugin, {
-    imgSelector: ".post-content-body img, .post-card-img",
-  });
 
   // Inline CSS
   config.addFilter("cssmin", (code) => {
@@ -121,6 +112,14 @@ module.exports = function (config) {
     });
 
     return collection;
+  });
+
+  config.addCollection("logos", () => {
+    const black =
+      "https://res-2.cloudinary.com/boopathi/image/upload/q_auto/v1/blog-images/black_240-copy.png";
+    const white =
+      "https://res-2.cloudinary.com/boopathi/image/upload/q_auto/v1/blog-images/white_240-copy.png";
+    return { black, white };
   });
 
   config.addCollection("intro", async () => {
@@ -238,32 +237,6 @@ module.exports = function (config) {
 
     return collection;
   });
-
-  // config.addCollection("fontfaces", async () => {
-  //   const response = await fetch("https://use.typekit.net/qzl1eld.css");
-  //   const text = await response.text();
-  //   const { stylesheet } = css.parse(text);
-  //   const fontFaces = stylesheet.rules.filter((it) => it.type === "font-face");
-  //   const urls = new Set();
-  //   for (const fontFace of fontFaces) {
-  //     const srcDecl = fontFace.declarations.find((it) => it.property === "src");
-  //     if (srcDecl) {
-  //       const values = fontFaceSrc.parse(srcDecl.value);
-  //       for (const { format, url } of values) {
-  //         if (format === "woff2") {
-  //           urls.add(url);
-  //         }
-  //       }
-  //     }
-  //   }
-
-  //   return {
-  //     styles: css.stringify({
-  //       stylesheet: { rules: fontFaces },
-  //     }),
-  //     urls: [...urls],
-  //   };
-  // });
 
   // Display 404 page in BrowserSnyc
   config.setBrowserSyncConfig({
