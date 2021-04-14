@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="utf-8">
     <title>
       {%- if title -%}
         {{ title }} – {{ site.title }}
@@ -10,6 +11,7 @@
     </title>
     <meta name="description" content="{% block description %}{{ site.description }}{% endblock %}">
     <meta name="robots" content="index,follow">
+
     <meta name="generator" content="Eleventy">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -46,9 +48,8 @@
     {%- endblock -%}
 
     <!-- optimizations -->
-    <link rel="preconnect" href="//use.typekit.net"/>
-    <link rel="preload" href="{{site.logo}}" as="image"/>
-    <link rel="preload" href="//cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js" as="script"/>
+    <link rel="preload" href="{{collections.logos.white}}" as="image"/>
+    <link rel="preload" href="{{collections.logos.black}}" as="image"/>
 
     {%- block speculation -%}{%- endblock -%}
 
@@ -91,7 +92,6 @@
       {{ codeinjection_foot | safe if codeinjection_foot }}
     </div>
 
-    <script async src="//cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script>
     <!-- Cloudflare Web Analytics -->
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "f5a5a3276dd8498cbe64652728f8837e"}'></script>
     <!-- End Cloudflare Web Analytics -->

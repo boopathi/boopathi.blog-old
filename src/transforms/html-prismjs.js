@@ -1,13 +1,14 @@
 const prismjs = require("prismjs");
 const loadLanguages = require("prismjs/components/index");
 const fs = require("fs");
+const path = require("path");
 
 const cheerio = require("cheerio");
 
 loadLanguages(["graphql", "typescript", "json", "javascript", "http", "bash"]);
 
 const prismcss = fs.readFileSync(
-  require.resolve("prismjs/themes/prism-tomorrow.css"),
+  path.join(__dirname, "../_includes/css/prism-dracula.css"),
   "utf8"
 );
 

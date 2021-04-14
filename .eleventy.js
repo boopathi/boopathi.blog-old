@@ -38,9 +38,9 @@ module.exports = function (config) {
   // purge css
   config.addTransform("htmlpurgecss", htmlPurgecssTransform);
 
-  config.addTransform("htmlSrcSet", (value, outputPath) => {
+  config.addTransform("htmlSrcSet", async (value, outputPath) => {
     if (outputPath.includes(".html")) {
-      const result = htmlLazyImages(value);
+      const result = await htmlLazyImages(value);
       return result;
     }
     return value;

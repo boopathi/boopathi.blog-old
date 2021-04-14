@@ -1,6 +1,10 @@
 "use strict";
 
 const cheerio = require("cheerio");
+const path = require("path");
+const fs = require("fs");
+const sizeOf = require("image-size");
+const undici = require("undici");
 
 const postContentImageSizes = [480, 720, 960, 1200, 1440];
 const postContentImageSrcSizes = `(max-width: 720px) 100vw, 720px`;
@@ -9,47 +13,82 @@ const featureImageSrcSizes = `(max-width: 720px) 100vw, 75vw`;
 const postcardImageSizes = [480, 720, 960, 1200];
 const postcardImageSrcSizes = `(max-width: 540px) 100vw, (max-width: 960px) 48vw, (max-width: 1024px) 30vw, 300px`;
 
-exports.processFeatureImage = processFeatureImage;
-exports.processPostcardImage = processPostcardImage;
-exports.htmlLazyImages = htmlLazyImages;
+const imageCacheFile = path.join(__dirname, "../../.images-cache.json");
 
-function htmlLazyImages(html) {
-  const $ = cheerio.load(html);
+class ImageCache {
+  constructor() {
+    this.ensureCacheFile();
+    this.cache = JSON.parse(fs.readFileSync(imageCacheFile, "utf-8"));
+  }
 
-  const $bodyImages = $(".post-content-body img");
+  ensureCacheFile() {
+    if (!existsSync(imageCacheFile)) {
+      fs.writeFileSync(imageCacheFile, "{}", "utf-8");
+    }
+  }
 
-  $bodyImages.each((i, el) => {
-    const $el = $(el);
+  writeCache() {
+    fs.writeFileSync(imageCacheFile, JSON.stringify(this.cache));
+  }
+
+  async getImages(...urls) {
+    const ret = await Promise.all(urls.map((url) => this.getImageByUrl(url)));
+    this.writeCache();
+    return ret;
+  }
+
+  async getImageByUrl(url) {
+    if (hop(this.cache, url)) {
+      return this.cache[url];
+    }
+
+    const response = await undici.request(url);
+    if (response.statusCode != 200) {
+      throw new Error(
+        `Invalid Response code "${response.statusCode}" for url "${url}"`
+      );
+    }
+    const chunks = [];
+    for await (const data of response.body) {
+      chunks.push(data);
+    }
+    this.cache[url] = sizeOf(Buffer.concat(chunks));
+    return this.cache[url];
+  }
+}
+
+const imageCache = new ImageCache();
+
+async function transformImageElements($, $images, sizes, srcSizes) {
+  const elements = [];
+  $images.each((i, el) => elements.push($(el)));
+
+  const dimensionsList = await imageCache.getImages(
+    ...elements.map((el) => el.attr("src"))
+  );
+
+  for (const [idx, $el] of elements.entries()) {
     $el.attr("loading", "lazy");
     const src = $el.attr("src");
     const url = new URL(src);
 
     if (url.hostname.includes("unsplash")) {
-      const srcSet = postContentImageSizes
-        .map((w) => makeUnsplashImage(src, w))
-        .join(", ");
-      $el.attr(
-        "src",
-        makeUnsplashUrl(
-          src,
-          postContentImageSizes[postContentImageSizes.length - 1]
-        )
-      );
-      $el.attr("sizes", postContentImageSrcSizes);
+      const srcSet = sizes.map((w) => makeUnsplashImage(src, w)).join(", ");
+      const imageSrc = makeUnsplashUrl(src, sizes[sizes.length - 1]);
+      const dimensions = dimensionsList[idx];
+      $el.attr("width", dimensions.width);
+      $el.attr("height", dimensions.height);
+      $el.attr("src", imageSrc);
+      $el.attr("sizes", srcSizes);
       $el.attr("srcset", srcSet);
     } else if (url.hostname.includes("cloudinary")) {
-      const originalSrc = $el.attr("src");
-      const srcSet = postContentImageSizes
-        .map((w) => makeCloudinaryImage(originalSrc, w))
-        .join(", ");
-      $el.attr(
-        "src",
-        makeCloudinaryUrl(
-          src,
-          postContentImageSizes[postContentImageSizes.length - 1]
-        )
-      );
-      $el.attr("sizes", postContentImageSrcSizes);
+      const srcSet = sizes.map((w) => makeCloudinaryImage(src, w)).join(", ");
+      const imageSrc = makeCloudinaryUrl(src, sizes[sizes.length - 1]);
+      const dimensions = dimensionsList[idx];
+      $el.attr("width", dimensions.width);
+      $el.attr("height", dimensions.height);
+      $el.attr("src", imageSrc);
+      $el.attr("sizes", srcSizes);
       $el.attr("srcset", srcSet);
     } else if (
       (url.hostname.includes("blog.boopathi.in") ||
@@ -64,43 +103,44 @@ function htmlLazyImages(html) {
         .replace(/apple-touch-icon-\d+x\d+.png/, "apple-touch-icon-60x60.png");
       $el.attr("src", newSrc);
     }
-  });
+  }
+}
 
-  const $featureImages = $(".post-content-image img");
-  $featureImages.each((i, el) => {
-    const $el = $(el);
-    $el.attr("loading", "lazy");
+async function htmlLazyImages(html) {
+  const $ = cheerio.load(html);
+  const promises = [];
 
-    const src = $el.attr("src");
-    const srcSet = featureImageSizes
-      .map((w) => makeCloudinaryImage(src, w))
-      .join(", ");
+  // post content body images
+  promises.push(
+    transformImageElements(
+      $,
+      $(".post-content-body img"),
+      postContentImageSizes,
+      postContentImageSrcSizes
+    )
+  );
 
-    $el.attr(
-      "src",
-      makeCloudinaryUrl(src, featureImageSizes[featureImageSizes.length - 1])
-    );
-    $el.attr("sizes", featureImageSrcSizes);
-    $el.attr("srcset", srcSet);
-  });
+  // post feature image
+  promises.push(
+    transformImageElements(
+      $,
+      $(".post-content-image img"),
+      postContentImageSizes,
+      postContentImageSrcSizes
+    )
+  );
 
-  const $postcardImages = $(".post-card-img");
-  $postcardImages.each((i, el) => {
-    const $el = $(el);
-    $el.attr("loading", "lazy");
+  // post card images
+  promises.push(
+    transformImageElements(
+      $,
+      $(".post-card-img"),
+      postContentImageSizes,
+      postContentImageSrcSizes
+    )
+  );
 
-    const src = $el.attr("src");
-    const srcSet = postcardImageSizes
-      .map((w) => makeCloudinaryImage(src, w))
-      .join(", ");
-
-    $el.attr(
-      "src",
-      makeCloudinaryUrl(src, postcardImageSizes[postcardImageSizes.length - 1])
-    );
-    $el.attr("sizes", postcardImageSrcSizes);
-    $el.attr("srcset", srcSet);
-  });
+  await Promise.all(promises);
 
   return $.html();
 }
@@ -141,3 +181,20 @@ function makeCloudinaryUrl(src, width) {
     `cloudinary.com/boopathi/image/upload/q_auto,f_auto,w_${width}/v1/blog-images`
   );
 }
+
+function existsSync(file) {
+  try {
+    fs.statSync(file);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function hop(o, key) {
+  return Object.prototype.hasOwnProperty.call(o, key);
+}
+
+exports.processFeatureImage = processFeatureImage;
+exports.processPostcardImage = processPostcardImage;
+exports.htmlLazyImages = htmlLazyImages;
