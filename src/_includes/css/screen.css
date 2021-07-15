@@ -421,9 +421,23 @@ img.light-mode-img {
 
 .content-body,
 .post-content-body {
-  font-size: 1.8rem;
+  font-size: 2rem;
   line-height: 1.65em;
   /* content-visibility: auto; */
+}
+
+@media (max-width: 720px) {
+  .content-body,
+  .post-content-body {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .content-body,
+  .post-content-body {
+    font-size: 1.6rem;
+  }
 }
 
 /* .content-body > :nth-child(n + 8),
@@ -431,13 +445,6 @@ img.light-mode-img {
   content-visibility: auto;
   contain-intrinsic-size: 1px 500px;
 } */
-
-@media (max-width: 500px) {
-  .content-body,
-  .post-content-body {
-    font-size: 1.6rem;
-  }
-}
 
 .content-title,
 .post-content-title,
@@ -552,7 +559,6 @@ h6 {
 .content-body pre,
 .post-content-body pre {
   overflow-x: auto;
-  font-size: large;
   margin: 1.5em 0 3em;
   max-width: 100%;
   border-radius: 1rem;
@@ -573,7 +579,6 @@ h6 {
 .content-body pre code,
 .post-content-body pre code {
   padding: 0;
-  font-size: smaller;
   background: transparent;
 }
 

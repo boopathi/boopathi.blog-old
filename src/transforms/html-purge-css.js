@@ -5,9 +5,7 @@ const cheerio = require("cheerio");
 module.exports = async function htmlPurgeCss(value, outputPath) {
   if (outputPath.indexOf(".html") > -1) {
     const purger = new PurgeCSS();
-
     const $ = cheerio.load(value);
-
     const css = extractStyleContents($);
 
     const results = await purger.purge({
@@ -21,7 +19,6 @@ module.exports = async function htmlPurgeCss(value, outputPath) {
         raw,
         extension: "css",
       })),
-      whitelist: ["site-head-open"],
       extractors: [
         {
           extractor: fromHtml,
